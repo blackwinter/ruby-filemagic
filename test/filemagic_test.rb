@@ -1,26 +1,39 @@
-require "test/unit"
-require "../filemagic"
+require 'test/unit'
+
+$:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'filemagic'
 
 class TestFileMagic < Test::Unit::TestCase
+
   def test_file
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    res = fm.file("pyfile")
-    assert_equal("a python script text executable", res)
-    res = fm.file("pylink")
-    assert_equal("symbolic link to `pyfile'", res)
+
+    res = fm.file(path_to('pyfile'))
+    assert_equal('a python script text executable', res)
+
+    if File.symlink?(path_to('pylink'))
+      res = fm.file(path_to('pylink'))
+      assert_equal("symbolic link to `pyfile'", res)
+    end
+
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
-    res = fm.file("pylink")
-    assert_equal("a python script text executable", res)
+
+    res = fm.file(path_to('pylink'))
+    assert_equal('a python script text executable', res)
+
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
-    res = fm.file("pylink")
-    assert_equal("text/plain; charset=us-ascii", res)
+
+    res = fm.file(path_to('pylink'))
+    assert_equal('text/plain; charset=us-ascii', res)
+
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
-    res = fm.file("pyfile-compressed.gz")
-    assert_equal("a python script text executable (gzip compressed data, " +
-                 'was "pyfile-compressed", from Unix)', res)
+
+    res = fm.file(path_to('pyfile-compressed.gz'))
+    assert_match(/^a python script text executable \(gzip compressed data, was "pyfile-compressed", from Unix/, res)
+
     fm.close
   end
 
@@ -28,21 +41,51 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = fm.buffer("#!/bin/sh\n")
     fm.close
-    assert_equal("a /bin/sh script text executable", res)
+    assert_match(/shell script text executable$/, res)
   end
 
   def test_check
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    res = fm.check("perl")
+    res = fm.check(path_to('perl'))
     fm.close
-    assert_equal(res, 0)
+    assert_equal(0, res)
   end
 
   def test_compile
+    assert(File.writable?('.'), "can't write to current directory")
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    res = fm.compile("perl")
+    res = fm.compile(path_to('perl'))
     fm.close
-    assert_equal(res, 0)
-    File.unlink("perl.mgc")
+    assert_equal(0, res)
+    File.unlink(path_to('perl.mgc', '.'))
   end
+
+  def test_block
+    block_fm = FileMagic.open(FileMagic::MAGIC_NONE) { |fm|
+      res = fm.file(path_to('pyfile'))
+      assert_equal('a python script text executable', res)
+    }
+    assert block_fm.closed?
+  end
+
+  def test_setflags
+    fm = FileMagic.new(FileMagic::MAGIC_NONE)
+    assert_equal(FileMagic::MAGIC_NONE, fm.flags)
+    fm.setflags(FileMagic::MAGIC_SYMLINK)
+    assert_equal(FileMagic::MAGIC_SYMLINK, fm.flags)
+    fm.close
+  end
+
+  def test_abbr
+    fm = FileMagic.new(:mime, :continue)
+    assert_equal(FileMagic::MAGIC_MIME | FileMagic::MAGIC_CONTINUE, fm.flags)
+    fm.setflags(:symlink)
+    assert_equal(FileMagic::MAGIC_SYMLINK, fm.flags)
+    fm.close
+  end
+
+  def path_to(file, dir = File.dirname(__FILE__))
+    File.join(dir, file)
+  end
+
 end

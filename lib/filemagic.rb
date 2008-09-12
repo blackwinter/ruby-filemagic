@@ -145,6 +145,14 @@ class FileMagic
   end
   alias_method :flags=, :setflags
 
+  def check(file)
+    fm_check(file)
+  end
+
+  def compile(file)
+    fm_compile(file)
+  end
+
   def simplified?
     @simplified
   end

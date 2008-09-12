@@ -8,3 +8,15 @@ o Initial release.
 
 o Added manual close method
 o Added unit test suite
+
+--------------------------------------------------------------------------------
+9/12/2008 version 0.2.0
+
+o Modified C API
+  o Uniform C function prefix rb_magic_ (instead of magick_)
+  o Uniform Ruby method prefix fm_ (instead of none)
+  o More magic(4) constants (if available)
+o Added Ruby wrapper for more rubyish interface
+o Added extensions for File and String core classes
+o Added/updated project files
+o Now available as a Rubygem!

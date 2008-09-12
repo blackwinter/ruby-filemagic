@@ -1,2 +1,6 @@
 doc
 pkg
+ext/Makefile
+ext/filemagic.so
+ext/mkmf.log
+lib/filemagic.so
