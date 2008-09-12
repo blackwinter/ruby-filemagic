@@ -1,0 +1,31 @@
+
+        FileMagic Library Binding
+
+        July 28, 2003 Travis Whitton <whitton@atlantic.net>
+
+This is one of my first ruby bindings, so suggestions are welcome. See
+filemagic.rd and test.rb for usage.
+
+to install, run these commands:
+
+ruby extconf.rb
+make
+su
+make install
+
+the file(1) library and headers are required.
+I have file 0.4.3.
+
+Enjoy!
+Travis
+
+[Copying]
+The filemagic extension library is copywrited free software by Travis Whitton
+<whitton@atlantic.net>. You can redistribute it under the terms specified in
+the COPYING file of the Ruby distribution.
+
+[WARRANTY]
+THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
+IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
+WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR
+PURPOSE.
