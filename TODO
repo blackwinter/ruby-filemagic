@@ -1,8 +1,8 @@
 o Find a better way to handle magic_load than just defaulting to NULL
 o Find a way to make magic_check work on NULL
-o Find a way to make magic_setflags work
+o [DONE] Find a way to make magic_setflags work
 o Refactor code into initialize instead of new
-o Enable blocks for automatic cleanup:
+o [DONE?] Enable blocks for automatic cleanup:
 
 FileMagic.open("somefile.txt") do |file|
   # close is called at the end of this block

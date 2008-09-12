@@ -1,17 +1,37 @@
+= FileMagic Library Binding
 
-        FileMagic Library Binding
+== VERSION
 
-        July 28, 2003 Travis Whitton <whitton@atlantic.net>
+This documentation refers to filemagic version 0.2.0
+
+
+== DESCRIPTION
+
+=== Revised version
+
+September 12, 2008 Jens Wille <jens.wille@uni-koeln.de>
+
+Similar to Ricardo[http://github.com/ricardochimal/ruby-filemagic]
+I wanted this project to make some progress. My needs went a bit
+farther than his, though ;-) Enjoy anyway!
+
+Install the gem from github[http://github.com]:
+
+  sudo gem install blackwinter-ruby-filemagic --source http://gems.github.com
+
+=== Original package
+
+July 28, 2003 Travis Whitton <tinymountain@gmail.com>
 
 This is one of my first ruby bindings, so suggestions are welcome. See
 filemagic.rd and test.rb for usage.
 
 to install, run these commands:
 
-ruby extconf.rb
-make
-su
-make install
+  ruby extconf.rb
+  make
+  su
+  make install
 
 the file(1) library and headers are required.
 I have file 0.4.3.
@@ -19,12 +39,28 @@ I have file 0.4.3.
 Enjoy!
 Travis
 
-[Copying]
+
+== LINKS
+
+* <http://grub.ath.cx/filemagic/>
+* <http://github.com/blackwinter/ruby-filemagic>
+
+
+== AUTHORS
+
+* Travis Whitton <mailto:tinymountain@gmail.com> (Original author)
+* Jens Wille <mailto:jens.wille@uni-koeln.de>
+
+
+== COPYING
+
 The filemagic extension library is copywrited free software by Travis Whitton
-<whitton@atlantic.net>. You can redistribute it under the terms specified in
+<tinymountain@gmail.com>. You can redistribute it under the terms specified in
 the COPYING file of the Ruby distribution.
 
-[WARRANTY]
+
+== WARRANTY
+
 THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
 IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
 WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR

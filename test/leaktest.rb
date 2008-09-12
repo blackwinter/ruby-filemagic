@@ -1,6 +1,7 @@
-require '../filemagic'
+$:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+require 'filemagic'
 
-# watch -n 1 'ps aux | grep leaktest'
+warn "watch -n 1 'ps aux | grep [l]eaktest'"
 
 def do_file(filename)
   fm = FileMagic.new(0)
