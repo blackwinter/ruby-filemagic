@@ -5,8 +5,9 @@ begin
 
   Hen.lay! {{
     :rubyforge => {
-      :package => 'ruby-filemagic',
-      :project => 'ruby-filemagic'
+      :package  => 'ruby-filemagic',
+      :project  => 'ruby-filemagic',
+      :rdoc_dir => nil
     },
 
     :gem => {
