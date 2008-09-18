@@ -145,9 +145,10 @@ class FileMagic
   end
   alias_method :flags=, :setflags
 
-  def check(file)
+  def check(file = "\0")
     fm_check(file)
   end
+  alias_method :valid?, :check
 
   def compile(file)
     fm_compile(file)
@@ -162,7 +163,9 @@ class FileMagic
   end
 
   def inspect
-    "#<#{self.class}:#{object_id}#{' (closed)' if closed?}>"
+    str = super
+    str.insert(-2, ' (closed)') if closed?
+    str
   end
 
   private

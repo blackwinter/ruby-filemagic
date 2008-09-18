@@ -84,6 +84,39 @@ class TestFileMagic < Test::Unit::TestCase
     fm.close
   end
 
+  # tests adapted from mahoro:
+
+  def test_mahoro_file
+    fm = FileMagic.new
+    fm.flags = FileMagic::MAGIC_NONE
+    assert_equal('ASCII C program text', fm.file(path_to('mahoro.c')))
+  end
+
+  def test_mahoro_mime_file
+    fm = FileMagic.new
+    fm.flags = FileMagic::MAGIC_MIME
+    assert_equal('text/x-c; charset=us-ascii', fm.file(path_to('mahoro.c')))
+  end
+
+  def test_mahoro_buffer
+    fm = FileMagic.new
+    fm.flags = FileMagic::MAGIC_NONE
+    assert_equal('ASCII C program text', fm.buffer(File.read(path_to('mahoro.c'))))
+  end
+
+  def test_mahoro_mime_buffer
+    fm = FileMagic.new
+    fm.flags = FileMagic::MAGIC_MIME
+    assert_equal('text/x-c; charset=us-ascii', fm.buffer(File.read(path_to('mahoro.c'))))
+  end
+
+  def test_mahoro_valid
+    fm = FileMagic.new
+    assert(fm.valid?, 'Default database was not valid.')
+  end
+
+  # utility methods:
+
   def path_to(file, dir = File.dirname(__FILE__))
     File.join(dir, file)
   end
