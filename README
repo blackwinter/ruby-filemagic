@@ -15,7 +15,11 @@ Similar to Ricardo[http://github.com/ricardochimal/ruby-filemagic]
 I wanted this project to make some progress. My needs went a bit
 farther than his, though ;-) Enjoy anyway!
 
-Install the gem from github[http://github.com]:
+Install the gem from Rubyforge[http://rubyforge.org]:
+
+  sudo gem install ruby-filemagic
+
+or from Github[http://github.com]:
 
   sudo gem install blackwinter-ruby-filemagic --source http://gems.github.com
 
