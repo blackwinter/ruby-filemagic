@@ -2,7 +2,7 @@
 
 == VERSION
 
-This documentation refers to filemagic version 0.2.0
+This documentation refers to filemagic version 0.2.1
 
 
 == DESCRIPTION
@@ -44,6 +44,8 @@ Travis
 
 * <http://grub.ath.cx/filemagic/>
 * <http://github.com/blackwinter/ruby-filemagic>
+* <http://ruby-filemagic.rubyforge.org/>
+* <http://rubyforge.org/projects/ruby-filemagic>
 
 
 == AUTHORS

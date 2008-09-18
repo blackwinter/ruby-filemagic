@@ -20,3 +20,9 @@ o Added Ruby wrapper for more rubyish interface
 o Added extensions for File and String core classes
 o Added/updated project files
 o Now available as a Rubygem!
+
+--------------------------------------------------------------------------------
+9/18/2008 version 0.2.1
+
+o Added mahoro source file and tests for reference and inspiration
+o We have a Rubyforge project now! :-)

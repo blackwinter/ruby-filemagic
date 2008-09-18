@@ -4,7 +4,7 @@ class FileMagic
 
     MAJOR = 0
     MINOR = 2
-    TINY  = 0
+    TINY  = 1
 
     class << self
 
