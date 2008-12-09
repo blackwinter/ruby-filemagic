@@ -46,10 +46,11 @@ Travis
 
 == LINKS
 
-* <http://grub.ath.cx/filemagic/>
-* <http://github.com/blackwinter/ruby-filemagic>
-* <http://ruby-filemagic.rubyforge.org/>
-* <http://rubyforge.org/projects/ruby-filemagic>
+<b></b>
+Homepage::          <http://grub.ath.cx/filemagic/>
+Documentation::     <http://ruby-filemagic.rubyforge.org/>
+Source code::       <http://github.com/blackwinter/ruby-filemagic>
+Rubyforge project:: <http://rubyforge.org/projects/ruby-filemagic>
 
 
 == AUTHORS
