@@ -115,6 +115,13 @@ class TestFileMagic < Test::Unit::TestCase
     assert(fm.valid?, 'Default database was not valid.')
   end
 
+  # test abbreviating mime types
+
+  def test_abbrev_mime_type
+    fm = FileMagic.mime
+    assert_equal('application/vnd.ms-excel', fm.file(path_to('excel-example.xls'), true))
+  end
+
   # utility methods:
 
   def path_to(file, dir = File.dirname(__FILE__))
