@@ -171,7 +171,7 @@ class FileMagic
   private
 
   def simplify_mime(mime, simplified = true)
-    simplified ? mime[/([\w\/-]+)/, 1].downcase : mime
+    simplified ? mime[/([.\w\/-]+)/, 1].downcase : mime
   end
 
 end
