@@ -2,6 +2,13 @@ require 'filemagic'
 
 module FileMagic::Ext
 
+  def self.included(base)
+    base.class_eval {
+      extend ClassMethods
+      include InstanceMethods
+    }
+  end
+
   module ClassMethods
 
     def file_type(file, *flags)
@@ -47,8 +54,7 @@ end
 
 class File
 
-  include FileMagic::Ext::InstanceMethods
-  extend  FileMagic::Ext::ClassMethods
+  include FileMagic::Ext
 
   def self.file_type(file, *flags)
     FileMagic.fm(*flags).file(file.respond_to?(:path) ? file.path : file)
@@ -60,8 +66,7 @@ end
 
 class String
 
-  include FileMagic::Ext::InstanceMethods
-  extend  FileMagic::Ext::ClassMethods
+  include FileMagic::Ext
 
   def self.file_type(string, *flags)
     FileMagic.fm(*flags).buffer(string)
