@@ -119,7 +119,7 @@ class TestFileMagic < Test::Unit::TestCase
 
   def test_abbrev_mime_type
     fm = FileMagic.mime
-    assert_equal('application/vnd.ms-excel', fm.file(path_to('excel-example.xls'), true))
+    assert_match(/\Aapplication\/vnd.ms-/, fm.file(path_to('excel-example.xls')))
   end
 
   # utility methods:
