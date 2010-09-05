@@ -70,17 +70,17 @@ class TestFileMagic < Test::Unit::TestCase
 
   def test_setflags
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    assert_equal(FileMagic::MAGIC_NONE, fm.flags)
+    assert_equal([], fm.flags)
     fm.setflags(FileMagic::MAGIC_SYMLINK)
-    assert_equal(FileMagic::MAGIC_SYMLINK, fm.flags)
+    assert_equal([:symlink], fm.flags)
     fm.close
   end
 
   def test_abbr
     fm = FileMagic.new(:mime, :continue)
-    assert_equal(FileMagic::MAGIC_MIME | FileMagic::MAGIC_CONTINUE, fm.flags)
+    assert_equal([:mime_type, :continue, :mime_encoding] , fm.flags)
     fm.setflags(:symlink)
-    assert_equal(FileMagic::MAGIC_SYMLINK, fm.flags)
+    assert_equal([:symlink], fm.flags)
     fm.close
   end
 

@@ -31,7 +31,6 @@ class FileMagic
     flags.update(flag => const_defined?(const) && const_get(const))
   }
 
-  attr_reader :flags
   attr_writer :simplified
 
   @fm = Hash.new { |fm, flags|
@@ -125,6 +124,21 @@ class FileMagic
 
     fm_close
     @closed = true
+  end
+
+  # Return an array of flag symbols. If no flags are set returns an
+  # empty array.
+  def flags
+    # Hash#index becomes Hash#key in Ruby 1.9.
+    index_method = RUBY_VERSION < '1.9' ? :index : :key
+    # Map the integer @flags to array of flag symbols
+    # (This may be cute but it's not very efficient!)
+    [ @flags ].flatten.first.to_s(2). # extract flags as binary string
+      split(//).map{ |bit| bit.to_i }. # convert to array of bits
+      reverse. # reverse order to work from lsb
+      inject([]) { |r,v| r << v * (1 << r.length) }. # convert each bit to decimal
+      reject { |flag| flag == MAGIC_FLAGS[:none] }. # discard MAGIC_NONE flag
+      map { |int_flag| MAGIC_FLAGS.send(index_method, int_flag) } # map decimal integer to symbol
   end
 
   # Optionally cut off additional information after mime-type.
