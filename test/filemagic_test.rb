@@ -1,6 +1,7 @@
 require 'test/unit'
 
-$:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
+top_dir = File.join(File.dirname(__FILE__), '..')
+$:.unshift(File.join(top_dir, 'lib'), File.join(top_dir, 'ext'))
 require 'filemagic'
 
 class TestFileMagic < Test::Unit::TestCase
