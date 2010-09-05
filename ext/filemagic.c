@@ -80,7 +80,7 @@ static VALUE rb_magic_file(VALUE self, VALUE file) {
 
 /* Return a string describing the string buffer */
 static VALUE rb_magic_buffer(VALUE self, VALUE buffer) {
-  int i = RSTRING(buffer)->len;
+  int i = RSTRING_LEN(buffer);
   const char *m;
   magic_t cookie;
 
