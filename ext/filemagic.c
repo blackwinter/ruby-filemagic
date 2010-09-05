@@ -70,7 +70,7 @@ static VALUE rb_magic_file(VALUE self, VALUE file) {
   const char *m;
   magic_t cookie;
 
-  m = STR2CSTR(file);
+  m = StringValuePtr(file);
   GetMagicCookie(self, cookie);
   if ((m = magic_file(cookie, m)) == NULL)
     rb_raise(rb_FileMagicError, magic_error(cookie));
@@ -84,7 +84,7 @@ static VALUE rb_magic_buffer(VALUE self, VALUE buffer) {
   const char *m;
   magic_t cookie;
 
-  m = STR2CSTR(buffer);
+  m = StringValuePtr(buffer);
   GetMagicCookie(self, cookie);
   if ((m = magic_buffer(cookie, m, i)) == NULL)
     rb_raise(rb_FileMagicError, magic_error(cookie));
@@ -110,7 +110,7 @@ static VALUE rb_magic_check(VALUE self, VALUE file) {
   magic_t cookie;
 
   GetMagicCookie(self, cookie);
-  m = STR2CSTR(file);
+  m = StringValuePtr(file);
   retval = magic_check(cookie, m);
 
   return INT2FIX(retval);
@@ -123,7 +123,7 @@ static VALUE rb_magic_compile(VALUE self, VALUE file) {
   magic_t cookie;
 
   GetMagicCookie(self, cookie);
-  m = STR2CSTR(file);
+  m = StringValuePtr(file);
   retval = magic_compile(cookie, m);
 
   return INT2FIX(retval);
