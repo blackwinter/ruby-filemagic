@@ -33,6 +33,7 @@ static void rb_magic_free(magic_t cookie) {
 }
 
 static VALUE rb_magic_init(VALUE self, VALUE flags) {
+  return Qnil;
 }
 
 /* Frees resources allocated */
