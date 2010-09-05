@@ -26,7 +26,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
 
     res = fm.file(path_to('pylink'))
-    assert_equal('text/plain', res)
+    assert_equal('text/plain; charset=us-ascii', res)
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
@@ -95,7 +95,7 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_mime_file
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_MIME
-    assert_equal('text/x-c', fm.file(path_to('mahoro.c')))
+    assert_equal('text/x-c; charset=us-ascii', fm.file(path_to('mahoro.c')))
   end
 
   def test_mahoro_buffer
@@ -107,7 +107,7 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_mime_buffer
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_MIME
-    assert_equal('text/x-c', fm.buffer(File.read(path_to('mahoro.c'))))
+    assert_equal('text/x-c; charset=us-ascii', fm.buffer(File.read(path_to('mahoro.c'))))
   end
 
   def test_mahoro_valid
