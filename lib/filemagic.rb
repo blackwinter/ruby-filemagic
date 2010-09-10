@@ -2,8 +2,8 @@ require 'filemagic.so'
 
 class FileMagic
 
-  # Map abbreviated flag names to their values (:name => Constant).
-  MAGIC_FLAGS = [
+  # Map flag names to their values (:name => Integer).
+  FLAGS_BY_SYM = [
     :none,               # No flags
     :debug,              # Turn on debugging
     :symlink,            # Follow symlinks
@@ -30,6 +30,9 @@ class FileMagic
     const = "MAGIC_#{flag.to_s.upcase}"
     flags.update(flag => const_defined?(const) && const_get(const))
   }
+
+  # Map flag values to their names (Integer => :name).
+  FLAGS_BY_INT = FLAGS_BY_SYM.invert.update(0 => :none)
 
   attr_writer :simplified
 
@@ -92,21 +95,22 @@ class FileMagic
 
     # Build the actual flags from the named flags passed as arguments.
     def build_flags(*flags)
-      _flags = *flags
+      int_flags = *flags
 
-      unless _flags.is_a?(Integer)
-        _flags = MAGIC_NONE
+      unless int_flags.is_a?(Integer)
+        int_flags = MAGIC_NONE
 
         flags.flatten.each { |flag|
-          if value = flag.is_a?(Integer) ? flag : MAGIC_FLAGS[flag.to_sym]
-            _flags |= value
+          if value = flag.is_a?(Integer) ? flag : FLAGS_BY_SYM[flag.to_sym]
+            int_flags |= value
           else
-            raise ArgumentError, "#{value.nil? ? 'no such flag' : 'flag not available'}: #{flag}"
+            err = value.nil? ? 'no such flag' : 'flag not available'
+            raise ArgumentError, "#{err}: #{flag}"
           end
         }
       end
 
-      _flags
+      int_flags
     end
 
   end
@@ -115,7 +119,7 @@ class FileMagic
   def initialize(*flags)
     fm_initialize(*flags)
 
-    @flags  = *flags
+    @flags  = flags
     @closed = false
   end
 
@@ -126,24 +130,26 @@ class FileMagic
     @closed = true
   end
 
-  # Return an array of flag symbols. If no flags are set returns an
-  # empty array.
-  def flags
-    # Hash#index becomes Hash#key in Ruby 1.9.
-    index_method = RUBY_VERSION < '1.9' ? :index : :key
-    # Map the integer @flags to array of flag symbols
-    # (This may be cute but it's not very efficient!)
-    [ @flags ].flatten.first.to_s(2). # extract flags as binary string
-      split(//).map{ |bit| bit.to_i }. # convert to array of bits
-      reverse. # reverse order to work from lsb
-      inject([]) { |r,v| r << v * (1 << r.length) }. # convert each bit to decimal
-      reject { |flag| flag == MAGIC_FLAGS[:none] }. # discard MAGIC_NONE flag
-      map { |int_flag| MAGIC_FLAGS.send(index_method, int_flag) } # map decimal integer to symbol
-  end
-
   # Optionally cut off additional information after mime-type.
   def file(file, simplified = simplified?)
     simplify_mime(fm_file(file), simplified)
+  end
+
+  # Returns the flags as integer.
+  def int_flags
+    @flags.first
+  end
+
+  # Returns the flags as array of symbols.
+  def flags
+    int, flags, log2 = int_flags, [], Math.log(2)
+
+    while int > 0
+      flags << FLAGS_BY_INT[flag = 2 ** Math.log(int).div(log2)]
+      int -= flag
+    end
+
+    flags.reverse
   end
 
   # Optionally cut off additional information after mime-type.
@@ -152,16 +158,16 @@ class FileMagic
   end
 
   def setflags(*flags)
-    previous_flags, @flags = @flags, self.class.build_flags(*flags)
-    fm_setflags(@flags)
-
-    previous_flags
+    @flags = [self.class.build_flags(*flags)]
+    fm_setflags(int_flags)
   end
+
   alias_method :flags=, :setflags
 
   def check(file = "\0")
     fm_check(file)
   end
+
   alias_method :valid?, :check
 
   def compile(file)
