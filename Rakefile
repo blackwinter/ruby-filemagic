@@ -1,4 +1,4 @@
-require %q{lib/filemagic/version}
+require %q{./lib/filemagic/version}
 
 begin
   require 'hen'
