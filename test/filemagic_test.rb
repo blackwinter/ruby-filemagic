@@ -62,17 +62,19 @@ class TestFileMagic < Test::Unit::TestCase
   end
 
   def test_block
-    block_fm = FileMagic.open(FileMagic::MAGIC_NONE) { |fm|
-      res = fm.file(path_to('pyfile'))
-      assert_equal('a python script text executable', res)
+    block_fm = nil
+    res = FileMagic.open(FileMagic::MAGIC_NONE) { |fm|
+      block_fm = fm
+      fm.file(path_to('pyfile'))
     }
+    assert_equal('a python script text executable', res)
     assert block_fm.closed?
   end
 
   def test_setflags
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     assert_equal([], fm.flags)
-    fm.setflags(FileMagic::MAGIC_SYMLINK)
+    fm.flags = FileMagic::MAGIC_SYMLINK
     assert_equal([:symlink], fm.flags)
     fm.close
   end
@@ -80,9 +82,17 @@ class TestFileMagic < Test::Unit::TestCase
   def test_abbr
     fm = FileMagic.new(:mime, :continue)
     assert_equal([:mime_type, :continue, :mime_encoding] , fm.flags)
-    fm.setflags(:symlink)
+    fm.flags = :symlink
     assert_equal([:symlink], fm.flags)
     fm.close
+  end
+
+  def test_close
+    fm = FileMagic.new
+    fm.close
+    assert fm.closed?
+    fm.close
+    assert fm.closed?
   end
 
   # tests adapted from mahoro:
@@ -120,7 +130,14 @@ class TestFileMagic < Test::Unit::TestCase
 
   def test_abbrev_mime_type
     fm = FileMagic.mime
-    assert_match(/\Aapplication\/vnd.ms-/, fm.file(path_to('excel-example.xls')))
+
+    assert !fm.simplified?
+    assert_equal('text/plain; charset=us-ascii', fm.file(path_to('perl')))
+
+    fm.simplified = true
+    assert fm.simplified?
+    assert_equal('text/plain', fm.file(path_to('perl')))
+    assert_equal('application/vnd.ms-office', fm.file(path_to('excel-example.xls')))
   end
 
   # utility methods:

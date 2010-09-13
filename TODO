@@ -1,9 +1,13 @@
-o Find a better way to handle magic_load than just defaulting to NULL
-o Find a way to make magic_check work on NULL
-o [DONE] Find a way to make magic_setflags work
-o Refactor code into initialize instead of new
-o [DONE?] Enable blocks for automatic cleanup:
+* Find a better way to handle magic_load than just defaulting to NULL
+* Find a way to make magic_check work on NULL
+* [DONE] Find a way to make magic_setflags work
+* Refactor code into initialize instead of new
+* [DONE] Enable blocks for automatic cleanup:
 
-FileMagic.open("somefile.txt") do |file|
-  # close is called at the end of this block
-end
+  FileMagic.open("somefile.txt") do |file|
+    # close is called at the end of this block
+  end
+
+* Add back options to FileMagic.new
+* Properly document C methods
+* Update changelog ;-)

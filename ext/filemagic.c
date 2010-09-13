@@ -13,52 +13,28 @@
 
 *********************************************************/
 
-#include "ruby.h"
-#include <magic.h>
-
-static VALUE cFileMagic, rb_FileMagicError;
-
-#define GetMagicCookie(obj, cookie) {\
-  if (rb_funcall(obj, rb_intern("closed?"), 0))\
-    rb_raise(rb_eRuntimeError, "closed stream");\
-  Data_Get_Struct(obj, struct magic_set, cookie);\
-}
-
-/* 
- GC never seems to happen until the program terminates, but this is called
- on any unclosed objects
-*/
-static void rb_magic_free(magic_t cookie) {
-  magic_close(cookie);
-}
-
-static VALUE rb_magic_init(VALUE self, VALUE flags) {
-  return Qnil;
-}
-
-/* Frees resources allocated */
-static VALUE rb_magic_close(VALUE self) {
-  magic_t cookie;
-
-  GetMagicCookie(self, cookie);
-  magic_close(cookie);
-
-  /* This keeps rb_magic_free from trying to free closed objects */
-  RDATA(self)->data = NULL;
-
-  return Qnil;
-}
+#include "filemagic.h"
 
 /* FileMagic.new */
-static VALUE rb_magic_new(VALUE class, VALUE flags) {
+static VALUE
+rb_magic_new(int argc, VALUE *argv, VALUE class) {
   VALUE obj;
+  VALUE flags;
   magic_t cookie;
 
-  cookie = magic_open(NUM2INT(flags));
-  if (cookie == NULL)
+  if (rb_block_given_p()) {
+    rb_warn("FileMagic::new() does not take block; use FileMagic::open() instead");
+  }
+
+  flags = rb_magic_flags_to_int(argc, argv);
+
+  if ((cookie = magic_open(NUM2INT(flags))) == NULL) {
     rb_fatal("out of memory");
-  if (magic_load(cookie, NULL) == -1)
+  }
+
+  if (magic_load(cookie, NULL) == -1) {
     rb_fatal("%s", magic_error(cookie));
+  }
 
   obj = Data_Wrap_Struct(class, 0, rb_magic_free, cookie);
   rb_obj_call_init(obj, 1, &flags);
@@ -66,37 +42,103 @@ static VALUE rb_magic_new(VALUE class, VALUE flags) {
   return obj;
 }
 
+static VALUE
+rb_magic_init(VALUE self, VALUE flags) {
+  rb_iv_set(self, "_flags", flags);
+  rb_iv_set(self, "closed", Qfalse);
+
+  return Qnil;
+}
+
+/* Frees resources allocated */
+static VALUE
+rb_magic_close(VALUE self) {
+  magic_t cookie;
+
+  if (RTEST(rb_magic_closed_p(self))) {
+    return Qnil;
+  }
+
+  GetMagicCookie(self, cookie);
+  magic_close(cookie);
+
+  /* This keeps rb_magic_free from trying to free closed objects */
+  RDATA(self)->data = NULL;
+
+  rb_iv_set(self, "closed", Qtrue);
+
+  return Qnil;
+}
+
+static VALUE
+rb_magic_closed_p(VALUE self) {
+  return rb_attr_get(self, rb_intern("closed"));
+}
+
 /* Return a string describing file */
-static VALUE rb_magic_file(VALUE self, VALUE file) {
+static VALUE
+rb_magic_file(int argc, VALUE *argv, VALUE self) {
   const char *m;
   magic_t cookie;
 
-  m = StringValuePtr(file);
-  GetMagicCookie(self, cookie);
-  if ((m = magic_file(cookie, m)) == NULL)
-    rb_raise(rb_FileMagicError, magic_error(cookie));
+  if (argc < 1 || argc > 2) {
+    rb_raise(rb_eArgError, "wrong number of arguments (%d for 1-2)", argc);
+  }
 
-  return rb_str_new2(m);
+  m = StringValuePtr(argv[0]);
+  GetMagicCookie(self, cookie);
+
+  if ((m = magic_file(cookie, m)) == NULL) {
+    rb_raise(rb_FileMagicError, "%s", magic_error(cookie));
+  }
+
+  return rb_magic_apply_simple(self, m, argc - 1, argv + 1);
 }
 
 /* Return a string describing the string buffer */
-static VALUE rb_magic_buffer(VALUE self, VALUE buffer) {
-  int i = RSTRING_LEN(buffer);
+static VALUE
+rb_magic_buffer(int argc, VALUE *argv, VALUE self) {
   const char *m;
   magic_t cookie;
 
-  m = StringValuePtr(buffer);
-  GetMagicCookie(self, cookie);
-  if ((m = magic_buffer(cookie, m, i)) == NULL)
-    rb_raise(rb_FileMagicError, magic_error(cookie));
+  if (argc < 1 || argc > 2) {
+    rb_raise(rb_eArgError, "wrong number of arguments (%d for 1-2)", argc);
+  }
 
-  return rb_str_new2(m);
+  m = StringValuePtr(argv[0]);
+  GetMagicCookie(self, cookie);
+
+  if ((m = magic_buffer(cookie, m, RSTRING_LEN(argv[0]))) == NULL) {
+    rb_raise(rb_FileMagicError, "%s", magic_error(cookie));
+  }
+
+  return rb_magic_apply_simple(self, m, argc - 1, argv + 1);
+}
+
+/* Get the flags as array of symbols */
+static VALUE
+rb_magic_getflags(VALUE self) {
+  VALUE ary = rb_ary_new();
+  VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_INT"));
+  int i = NUM2INT(rb_attr_get(self, rb_intern("_flags"))), j = 0;
+
+  while ((i -= j) > 0) {
+    j = pow(2, (int)(log(i) / log(2)));
+    rb_ary_unshift(ary, rb_hash_aref(map, INT2FIX(j)));
+  }
+
+  return ary;
 }
 
 /* Set flags on the cookie object */
-static VALUE rb_magic_setflags(VALUE self, VALUE flags) {
+static VALUE
+rb_magic_setflags(VALUE self, VALUE flags) {
   int retval;
   magic_t cookie;
+
+  flags = rb_Array(flags);
+  flags = rb_magic_flags_to_int(RARRAY_LEN(flags), RARRAY_PTR(flags));
+  rb_iv_set(self, "_flags", flags);
 
   GetMagicCookie(self, cookie);
   retval = magic_setflags(cookie, NUM2INT(flags));
@@ -105,20 +147,24 @@ static VALUE rb_magic_setflags(VALUE self, VALUE flags) {
 }
 
 /* Checks validity of a magic database file */
-static VALUE rb_magic_check(VALUE self, VALUE file) {
+static VALUE
+rb_magic_check(int argc, VALUE *argv, VALUE self) {
   int retval;
-  const char *m;
   magic_t cookie;
 
+  if (argc < 0 || argc > 1) {
+    rb_raise(rb_eArgError, "wrong number of arguments (%d for 0-1)", argc);
+  }
+
   GetMagicCookie(self, cookie);
-  m = StringValuePtr(file);
-  retval = magic_check(cookie, m);
+  retval = magic_check(cookie, argc == 1 ? StringValuePtr(argv[0]) : NULL);
 
   return INT2FIX(retval);
 }
 
 /* Compiles a magic database file */
-static VALUE rb_magic_compile(VALUE self, VALUE file) {
+static VALUE
+rb_magic_compile(VALUE self, VALUE file) {
   int retval;
   const char *m;
   magic_t cookie;
@@ -130,18 +176,74 @@ static VALUE rb_magic_compile(VALUE self, VALUE file) {
   return INT2FIX(retval);
 }
 
-void Init_filemagic() {
+static VALUE
+rb_magic_flags_to_int(int argc, VALUE *argv) {
+  VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_SYM"));
+  VALUE f, v;
+  int i = MAGIC_NONE, j;
+
+  for (j = 0; j < argc; j++) {
+    f = argv[j];
+
+    if (RTEST(v = FIXNUM_P(f) ? f : rb_hash_aref(map, f))) {
+      i |= NUM2INT(v);
+    }
+    else {
+      f = rb_funcall(f, rb_intern("inspect"), 0);
+      rb_raise(rb_eArgError,
+        "%s: %s", NIL_P(v) ? "no such flag" : "flag not available",
+        StringValueCStr(f)
+      );
+    }
+  }
+
+  return INT2FIX(i);
+}
+
+static VALUE
+rb_magic_apply_simple(VALUE self, const char *m, int argc, VALUE *argv) {
+  VALUE simple = argc == 1 ? argv[0] : rb_attr_get(self, rb_intern("@simplified"));
+  VALUE str = rb_str_new2(m);
+
+  if (RTEST(simple)) {
+    rb_funcall(str, rb_intern("downcase!"), 0);
+
+    return rb_funcall(str, rb_intern("slice"), 2,
+      rb_funcall(rb_cRegexp, rb_intern("new"), 1, rb_str_new2("([.\\w\\/-]+)")),
+      INT2FIX(1)
+    );
+  }
+  else {
+    return str;
+  }
+}
+
+/*
+ GC never seems to happen until the program terminates, but this is called
+ on any unclosed objects
+*/
+static void
+rb_magic_free(magic_t cookie) {
+  magic_close(cookie);
+}
+
+void
+Init_filemagic() {
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 
-  rb_define_singleton_method(cFileMagic, "fm_new", rb_magic_new, 1);
+  rb_define_singleton_method(cFileMagic, "new", rb_magic_new, -1);
 
-  rb_define_method(cFileMagic, "fm_initialize", rb_magic_init,     1);
-  rb_define_method(cFileMagic, "fm_close",      rb_magic_close,    0);
-  rb_define_method(cFileMagic, "fm_file",       rb_magic_file,     1);
-  rb_define_method(cFileMagic, "fm_buffer",     rb_magic_buffer,   1);
-  rb_define_method(cFileMagic, "fm_setflags",   rb_magic_setflags, 1);
-  rb_define_method(cFileMagic, "fm_check",      rb_magic_check,    1);
-  rb_define_method(cFileMagic, "fm_compile",    rb_magic_compile,  1);
+  rb_define_method(cFileMagic, "initialize", rb_magic_init,      1);
+  rb_define_method(cFileMagic, "close",      rb_magic_close,     0);
+  rb_define_method(cFileMagic, "closed?",    rb_magic_closed_p,  0);
+  rb_define_method(cFileMagic, "file",       rb_magic_file,     -1);
+  rb_define_method(cFileMagic, "buffer",     rb_magic_buffer,   -1);
+  rb_define_method(cFileMagic, "flags",      rb_magic_getflags,  0);
+  rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,  1);
+  rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
+  rb_define_method(cFileMagic, "compile",    rb_magic_compile,   1);
+
+  rb_alias(cFileMagic, rb_intern("valid?"), rb_intern("check"));
 
   rb_FileMagicError = rb_define_class_under(cFileMagic, "FileMagicError", rb_eStandardError);
 

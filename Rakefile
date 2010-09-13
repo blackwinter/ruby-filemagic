@@ -16,7 +16,7 @@ begin
       :authors     => ['Travis Whitton', 'Jens Wille'],
       :email       => ['tinymountain@gmail.com', 'jens.wille@uni-koeln.de'],
       :homepage    => 'http://ruby-filemagic.rubyforge.org/',
-      :files       => FileList['lib/**/*.rb', 'ext/**/*.c', 'test/*'].to_a,
+      :files       => FileList['lib/**/*.rb', 'ext/**/*.[ch]', 'test/*'].to_a,
       :extensions  => FileList['ext/**/extconf.rb'].to_a,
       :extra_files => FileList['[A-Z]*', 'info/*'].to_a
     }

@@ -23,6 +23,7 @@ module FileMagic::Ext
       flags.unshift :mime
       file_type(file, *flags)
     end
+
     alias_method :mime, :mime_type
 
     def content_type(file, *flags)
@@ -37,11 +38,13 @@ module FileMagic::Ext
     def file_type(*flags)
       self.class.file_type(self, *flags)
     end
+
     alias_method :file, :file_type
 
     def mime_type(*flags)
       self.class.mime_type(self, *flags)
     end
+
     alias_method :mime, :mime_type
 
     def content_type(*flags)
