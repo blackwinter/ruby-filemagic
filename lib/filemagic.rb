@@ -17,15 +17,19 @@ class FileMagic
     :error,              # Handle ENOENT etc as real errors
     :mime_encoding,      # Return only the MIME encoding
     :mime,               # MAGIC_MIME_TYPE | MAGIC_MIME_ENCODING
+    :apple,              # Return the Apple creator and type
     :no_check_compress,  # Don't check for compressed files
     :no_check_tar,       # Don't check for tar files
     :no_check_soft,      # Don't check magic entries
     :no_check_apptype,   # Don't check application type
     :no_check_elf,       # Don't check for elf details
-    :no_check_ascii,     # Don't check for ascii files
-    :no_check_troff,     # Don't check ascii/troff
+    :no_check_text,      # Don't check for text files
+    :no_check_cdf,       # Don't check for cdf files
     :no_check_tokens,    # Don't check ascii/tokens
-    :no_check_fortran    # Don't check ascii/fortran
+    :no_check_encoding,  # Don't check text encodings
+    :no_check_ascii,     # MAGIC_NO_CHECK_TEXT
+    :no_check_fortran,   # Don't check ascii/fortran
+    :no_check_troff      # Don't check ascii/troff
   ].inject({}) { |flags, flag|
     const = "MAGIC_#{flag.to_s.upcase}"
     flags.update(flag => const_defined?(const) && const_get(const))
@@ -34,23 +38,11 @@ class FileMagic
   # Map flag values to their names (Integer => :name).
   FLAGS_BY_INT = FLAGS_BY_SYM.invert.update(0 => :none)
 
+  # Extract "simple" MIME type
+  SIMPLE_RE = %r{([.\w\/-]+)}
+
   @fm = Hash.new { |fm, flags|
-    if fm.has_key?(key = flags.to_s)
-      fm[key]
-    else
-      options = flags.last.is_a?(Hash) ? flags.pop : {}
-      _fm = new(*flags)
-
-      options.each { |option, value|
-        if _fm.respond_to?(method = "#{option}=")
-          _fm.send(method, value)
-        else
-          raise ArgumentError, "illegal option: #{option.inspect}"
-        end
-      }
-
-      fm[key] = _fm
-    end
+    fm.has_key?(key = flags.to_s) ? fm[key] : fm[key] = new(*flags)
   }
 
   class << self
