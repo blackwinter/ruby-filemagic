@@ -2,8 +2,9 @@
 #define __FILEMAGIC_H_
 
 #include "ruby.h"
-#include <magic.h>
 #include <math.h>
+#include <magic.h>
+#include <file/patchlevel.h>
 
 /* Ruby 1.8.5 compatibility */
 #ifndef RSTRING_LEN

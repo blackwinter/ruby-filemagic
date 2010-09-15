@@ -2,7 +2,6 @@
 * Find a way to make magic_check work on NULL
 * Refactor code into initialize instead of new
 
-* Expose magic(4) version (how?)
 * Properly document C methods
 * Convert tests to RSpec
 * Add Rake tasks

@@ -271,6 +271,10 @@ void
 Init_filemagic() {
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 
+  char version[16];
+  sprintf(version, "%d.%02d", FILE_VERSION_MAJOR, patchlevel);
+  rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
+
   rb_define_singleton_method(cFileMagic, "new", rb_magic_new, -1);
 
   rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);

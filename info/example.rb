@@ -3,6 +3,9 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'filemagic'
 
+p FileMagic::VERSION
+p FileMagic::MAGIC_VERSION
+
 p FileMagic.new.flags
 
 FileMagic.open(:mime) { |fm|

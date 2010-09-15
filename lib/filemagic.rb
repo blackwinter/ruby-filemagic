@@ -1,4 +1,5 @@
 require 'filemagic.so'
+require 'filemagic/version'
 
 class FileMagic
 
