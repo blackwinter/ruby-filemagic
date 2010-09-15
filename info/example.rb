@@ -3,26 +3,26 @@
 $:.unshift(File.join(File.dirname(__FILE__), '..', 'lib'))
 require 'filemagic'
 
-puts FileMagic.new.flags
+p FileMagic.new.flags
 
 FileMagic.open(:mime) { |fm|
-  puts fm.flags
-  puts fm.file(__FILE__)
+  p fm.flags
+  p fm.file(__FILE__)
 
-  fm.setflags(:raw, :continue)
-  puts fm.flags
+  fm.flags = [:raw, :continue]
+  p fm.flags
 }
 
 fm = FileMagic.new
-puts fm.flags
+p fm.flags
 
 mime = FileMagic.mime
-puts mime.flags
+p mime.flags
 
 ARGV.each { |file|
-  puts fm.file(file)
-  puts fm.file(file, true)
+  p fm.file(file)
+  p fm.file(file, true)
 
-  puts mime.file(file)
-  puts mime.file(file, true)
+  p mime.file(file)
+  p mime.file(file, true)
 }
