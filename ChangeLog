@@ -1,16 +1,29 @@
---------------------------------------------------------------------------------
-7/28/2003 version 0.1.0
+= Revision history for ruby-filemagic
 
-* Initial release.
+== 0.4.0 [2010-09-14]
 
---------------------------------------------------------------------------------
-7/30/2003 version 0.1.1
+* Brushed up C layer
+  * Moved most of the Ruby stuff to C
+  * No longer expose internal state (@closed, @flags)
+  * No longer expose internal C methods (fm_*)
+  * Updated for magic(4) version 5.04
 
-* Added manual close method
-* Added unit test suite
+== 0.3.0 [2010-09-10]
 
---------------------------------------------------------------------------------
-9/12/2008 version 0.2.0
+* Ruby 1.9.2 compatibility (Martin Carpenter)
+* Exposed flags as symbols (Martin Carpenter)
+
+== 0.2.2 [2010-03-02]
+
+* Allow '.' when abbreviating mime types (Eric Schwartz)
+* Cleanup and project file fixes
+
+== 0.2.1 [2008-09-18]
+
+* Added mahoro source file and tests for reference and inspiration
+* We have a Rubyforge project now! :-)
+
+== 0.2.0 [2008-09-12]
 
 * Modified C API
   * Uniform C function prefix rb_magic_ (instead of magick_)
@@ -21,29 +34,11 @@
 * Added/updated project files
 * Now available as a Rubygem!
 
---------------------------------------------------------------------------------
-9/18/2008 version 0.2.1
+== 0.1.1 [2003-07-30]
 
-* Added mahoro source file and tests for reference and inspiration
-* We have a Rubyforge project now! :-)
+* Added manual close method
+* Added unit test suite
 
---------------------------------------------------------------------------------
-3/2/2010 version 0.2.2
+== 0.1.0 [2003-07-28]
 
-* Allow '.' when abbreviating mime types (Eric Schwartz)
-* Cleanup and project file fixes
-
---------------------------------------------------------------------------------
-9/10/2010 version 0.3.0
-
-* Ruby 1.9.2 compatibility (Martin Carpenter)
-* Exposed flags as symbols (Martin Carpenter)
-
---------------------------------------------------------------------------------
-9/14/2010 version 0.4.0
-
-* Brushed up C layer
-  * Moved most of the Ruby stuff to C
-  * No longer expose internal state (@closed, @flags)
-  * No longer expose internal C methods (fm_*)
-  * Updated for magic(4) version 5.04
+* Initial release.
