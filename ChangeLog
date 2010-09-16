@@ -1,6 +1,10 @@
 = Revision history for ruby-filemagic
 
-== 0.4.1
+== 0.4.2 [2010-09-16]
+
+* Not all versions/distributions have file/patchlevel.h
+
+== 0.4.1 [2010-09-15]
 
 * Added MAGIC_VERSION
 * Fixed example script

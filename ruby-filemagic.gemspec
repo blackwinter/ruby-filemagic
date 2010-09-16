@@ -2,11 +2,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{ruby-filemagic}
-  s.version = "0.4.1"
+  s.version = "0.4.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Travis Whitton", "Jens Wille"]
-  s.date = %q{2010-09-15}
+  s.date = %q{2010-09-16}
   s.description = %q{Ruby bindings to the magic(4) library}
   s.email = ["tinymountain@gmail.com", "jens.wille@uni-koeln.de"]
   s.extensions = ["ext/extconf.rb"]
