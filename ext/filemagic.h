@@ -1,10 +1,12 @@
-#ifndef __FILEMAGIC_H_
-#define __FILEMAGIC_H_
+#ifndef FILEMAGIC_H
+#define FILEMAGIC_H
 
 #include "ruby.h"
 #include <math.h>
 #include <magic.h>
+#ifdef HAVE_FILE_PATCHLEVEL_H
 #include <file/patchlevel.h>
+#endif
 
 /* Ruby 1.8.5 compatibility */
 #ifndef RSTRING_LEN
@@ -46,4 +48,4 @@ static VALUE rb_magic_apply_simple(VALUE, const char*, VALUE);
 static void rb_magic_free(magic_t);
 void Init_filemagic(void);
 
-#endif /* __FILEMAGIC_H_ */
+#endif /* FILEMAGIC_H */
