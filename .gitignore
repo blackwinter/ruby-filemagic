@@ -1,5 +1,7 @@
 doc
+doc.local
 pkg
+.gh-pages
 ext/Makefile
 ext/filemagic.o
 ext/filemagic.so
