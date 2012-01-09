@@ -1,6 +1,7 @@
 doc
 doc.local
 pkg
+tmp
 .gh-pages
 ext/Makefile
 ext/filemagic.o

@@ -62,7 +62,6 @@ class File
   def self.file_type(file, *flags)
     FileMagic.fm(*flags).file(file.respond_to?(:path) ? file.path : file)
   rescue FileMagic::FileMagicError
-    nil
   end
 
 end
@@ -74,7 +73,6 @@ class String
   def self.file_type(string, *flags)
     FileMagic.fm(*flags).buffer(string)
   rescue FileMagic::FileMagicError
-    nil
   end
 
 end

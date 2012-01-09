@@ -39,7 +39,7 @@ class FileMagic
   # Map flag values to their names (Integer => :name).
   FLAGS_BY_INT = FLAGS_BY_SYM.invert.update(0 => :none)
 
-  # Extract "simple" MIME type
+  # Extract "simple" MIME type.
   SIMPLE_RE = %r{([.\w\/-]+)}
 
   @fm = Hash.new { |fm, flags|

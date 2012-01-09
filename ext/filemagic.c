@@ -33,6 +33,7 @@ rb_magic_new(int argc, VALUE *argv, VALUE class) {
   }
 
   args[0] = rb_magic_flags_to_int(argc, argv);
+
   if ((cookie = magic_open(NUM2INT(args[0]))) == NULL) {
     rb_fatal("out of memory");
   }
@@ -222,7 +223,8 @@ rb_magic_flags_to_int(int argc, VALUE *argv) {
         else {
           f = rb_funcall(f, rb_intern("inspect"), 0);
           rb_raise(rb_eArgError,
-            "%s: %s", NIL_P(g) ? "no such flag" : "flag not available",
+            "%s: %s",
+            NIL_P(g) ? "no such flag" : "flag not available",
             StringValueCStr(f)
           );
           break;

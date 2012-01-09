@@ -23,9 +23,12 @@
 #endif
 
 #define GetMagicCookie(obj, cookie) {\
-  if (RTEST(rb_magic_closed_p(obj)))\
+  if (RTEST(rb_magic_closed_p(obj))) {\
     rb_raise(rb_eRuntimeError, "closed stream");\
-  Data_Get_Struct(obj, struct magic_set, cookie);\
+  }\
+  else {\
+    Data_Get_Struct((obj), struct magic_set, (cookie));\
+  }\
 }
 
 static VALUE cFileMagic, rb_FileMagicError;
