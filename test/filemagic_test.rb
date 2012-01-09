@@ -47,7 +47,7 @@ class TestFileMagic < Test::Unit::TestCase
 
   def test_check
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    res = fm.check(path_to('perl'))
+    res = silence_stderr { fm.check(path_to('perl')) }
     fm.close
     assert_equal(0, res)
   end
@@ -123,7 +123,7 @@ class TestFileMagic < Test::Unit::TestCase
 
   def test_mahoro_valid
     fm = FileMagic.new
-    assert(fm.valid?, 'Default database was not valid.')
+    assert(silence_stderr { fm.valid? }, 'Default database was not valid.')
   end
 
   # test abbreviating mime types
@@ -144,6 +144,13 @@ class TestFileMagic < Test::Unit::TestCase
 
   def path_to(file, dir = File.dirname(__FILE__))
     File.join(dir, file)
+  end
+
+  def silence_stderr
+    require 'nuggets/io/redirect'
+    $stderr.redirect { yield }
+  rescue LoadError
+    yield
   end
 
 end
