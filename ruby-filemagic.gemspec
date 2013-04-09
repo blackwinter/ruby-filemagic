@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.authors = ["Travis Whitton", "Jens Wille"]
   s.date = %q{2010-09-16}
   s.description = %q{Ruby bindings to the magic(4) library}
-  s.email = ["tinymountain@gmail.com", "jens.wille@uni-koeln.de"]
+  s.email = ["tinymountain@gmail.com", "jens.wille@gmail.com"]
   s.extensions = ["ext/extconf.rb"]
   s.extra_rdoc_files = ["ChangeLog", "README"]
   s.files = ["lib/filemagic/ext.rb", "lib/filemagic/version.rb", "lib/filemagic.rb", "ext/filemagic.h", "ext/filemagic.c", "test/pyfile", "test/mahoro.c", "test/pylink", "test/pyfile-compressed.gz", "test/perl", "test/leaktest.rb", "test/filemagic_test.rb", "test/excel-example.xls", "README", "ChangeLog", "Rakefile", "TODO", "info/filemagic.rd", "info/example.rb", "ext/extconf.rb"]

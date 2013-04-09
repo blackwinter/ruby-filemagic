@@ -4,17 +4,16 @@ begin
   require 'hen'
 
   Hen.lay! {{
-    :rubyforge => {
-      :package => %q{ruby-filemagic}
-    },
-
     :gem => {
-      :version     => FileMagic::VERSION,
-      :summary     => 'Ruby bindings to the magic(4) library',
-      :authors     => ['Travis Whitton', 'Jens Wille'],
-      :email       => ['tinymountain@gmail.com', 'jens.wille@uni-koeln.de'],
-      :extra_files => FileList['info/*'].to_a,
-      :extension => {
+      :name         => %q{ruby-filemagic},
+      :version      => FileMagic::VERSION,
+      :summary      => 'Ruby bindings to the magic(4) library',
+      :authors      => ['Travis Whitton', 'Jens Wille'],
+      :email        => ['tinymountain@gmail.com', 'jens.wille@gmail.com'],
+      :homepage     => :blackwinter,
+      :extra_files  => FileList['info/*'].to_a,
+      :dependencies => %w[],
+      :extension    => {
         :name          => 'filemagic',
         :ext_dir       => 'ext',
         :lib_dir       => 'lib',

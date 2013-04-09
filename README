@@ -9,7 +9,7 @@ This documentation refers to filemagic version 0.4.2
 
 === Revised version
 
-September 12, 2008 Jens Wille <jens.wille@uni-koeln.de>
+September 12, 2008 Jens Wille <jens.wille@gmail.com>
 
 Similar to Ricardo[http://github.com/ricardochimal/ruby-filemagic]
 I wanted this project to make some progress. My needs went a bit
@@ -43,16 +43,16 @@ Travis
 == LINKS
 
 <b></b>
-Homepage::          http://grub.ath.cx/filemagic/
-Documentation::     http://ruby-filemagic.rubyforge.org/
-Source code::       http://github.com/blackwinter/ruby-filemagic
-RubyForge project:: http://rubyforge.org/projects/ruby-filemagic
+Homepage (defunct):: http://grub.ath.cx/filemagic/
+Documentation::      http://blackwinter.github.com/ruby-filemagic
+Source code::        http://github.com/blackwinter/ruby-filemagic
+RubyGem::            http://rubygems.org/gems/ruby-filemagic
 
 
 == AUTHORS
 
 * Travis Whitton <mailto:tinymountain@gmail.com> (Original author)
-* Jens Wille <mailto:jens.wille@uni-koeln.de>
+* Jens Wille <mailto:jens.wille@gmail.com>
 
 
 == CREDITS
