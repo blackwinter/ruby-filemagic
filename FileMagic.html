@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class FileMagic - ruby-filemagic Application documentation (v0.4.2)</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>ext/filemagic.c
+    <li>lib/filemagic.rb
+    <li>lib/filemagic/ext.rb
+    <li>lib/filemagic/version.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li ><a href="#method-c-clear-21">::clear!</a>
+    
+    <li ><a href="#method-c-fm">::fm</a>
+    
+    <li ><a href="#method-c-mime">::mime</a>
+    
+    <li ><a href="#method-c-new">::new</a>
+    
+    <li ><a href="#method-c-open">::open</a>
+    
+    <li ><a href="#method-i-buffer">#buffer</a>
+    
+    <li ><a href="#method-i-check">#check</a>
+    
+    <li ><a href="#method-i-close">#close</a>
+    
+    <li ><a href="#method-i-closed-3F">#closed?</a>
+    
+    <li ><a href="#method-i-compile">#compile</a>
+    
+    <li ><a href="#method-i-file">#file</a>
+    
+    <li ><a href="#method-i-flags">#flags</a>
+    
+    <li ><a href="#method-i-flags-3D">#flags=</a>
+    
+    <li class="calls-super" ><a href="#method-i-inspect">#inspect</a>
+    
+    <li ><a href="#method-i-simplified-3F">#simplified?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./ChangeLog.html">ChangeLog</a>
+  
+    <li class="file"><a href="./README.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./File.html">File</a>
+  
+    <li><a href="./FileMagic.html">FileMagic</a>
+  
+    <li><a href="./FileMagic/Ext.html">FileMagic::Ext</a>
+  
+    <li><a href="./FileMagic/Ext/ClassMethods.html">FileMagic::Ext::ClassMethods</a>
+  
+    <li><a href="./FileMagic/Ext/InstanceMethods.html">FileMagic::Ext::InstanceMethods</a>
+  
+    <li><a href="./FileMagic/FileMagicError.html">FileMagic::FileMagicError</a>
+  
+    <li><a href="./FileMagic/Version.html">FileMagic::Version</a>
+  
+    <li><a href="./String.html">String</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class FileMagic</h1>
+
+  <div id="description" class="description">
+    
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="FLAGS_BY_INT">FLAGS_BY_INT
+        
+        <dd class="description"><p>Map flag values to their names (Integer =&gt; :name).</p>
+        
+      
+        <dt id="FLAGS_BY_SYM">FLAGS_BY_SYM
+        
+        <dd class="description"><p>Map flag names to their values (:name =&gt; Integer).</p>
+        
+      
+        <dt id="MAGIC_APPLE">MAGIC_APPLE
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_CHECK">MAGIC_CHECK
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_COMPRESS">MAGIC_COMPRESS
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_CONTINUE">MAGIC_CONTINUE
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_DEBUG">MAGIC_DEBUG
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_DEVICES">MAGIC_DEVICES
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_ERROR">MAGIC_ERROR
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_MIME">MAGIC_MIME
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_MIME_ENCODING">MAGIC_MIME_ENCODING
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_MIME_TYPE">MAGIC_MIME_TYPE
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NONE">MAGIC_NONE
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_APPTYPE">MAGIC_NO_CHECK_APPTYPE
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_ASCII">MAGIC_NO_CHECK_ASCII
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_CDF">MAGIC_NO_CHECK_CDF
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_COMPRESS">MAGIC_NO_CHECK_COMPRESS
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_ELF">MAGIC_NO_CHECK_ELF
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_ENCODING">MAGIC_NO_CHECK_ENCODING
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_FORTRAN">MAGIC_NO_CHECK_FORTRAN
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_SOFT">MAGIC_NO_CHECK_SOFT
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_TAR">MAGIC_NO_CHECK_TAR
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_TEXT">MAGIC_NO_CHECK_TEXT
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_TOKENS">MAGIC_NO_CHECK_TOKENS
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_NO_CHECK_TROFF">MAGIC_NO_CHECK_TROFF
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_PRESERVE_ATIME">MAGIC_PRESERVE_ATIME
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_RAW">MAGIC_RAW
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_SYMLINK">MAGIC_SYMLINK
+        
+        <dd class="description">
+        
+      
+        <dt id="MAGIC_VERSION">MAGIC_VERSION
+        
+        <dd class="description">
+        
+      
+        <dt id="SIMPLE_RE">SIMPLE_RE
+        
+        <dd class="description"><p>Extract “simple” MIME type.</p>
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description">
+        
+      
+      </dl>
+    </section>
+    
+
+    
+    <!-- Attributes -->
+    <section id="attribute-method-details" class="method-section section">
+      <h3 class="section-header">Attributes</h3>
+
+      
+      <div id="attribute-i-simplified" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">simplified</span><span
+            class="attribute-access-type">[W]</span>
+        </div>
+
+        <div class="method-description">
+        
+        
+        
+        </div>
+      </div>
+      
+    </section><!-- attribute-method-details -->
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-clear-21" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">clear!</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Clear our instance cache.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="clear-21-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 58</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">clear!</span>
+  <span class="ruby-ivar">@fm</span>.<span class="ruby-identifier">each_value</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">fm</span><span class="ruby-operator">|</span> <span class="ruby-identifier">fm</span>.<span class="ruby-identifier">close</span> }
+  <span class="ruby-ivar">@fm</span>.<span class="ruby-identifier">clear</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- clear-21-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- clear-21-method -->
+
+    
+      <div id="method-c-fm" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fm</span><span
+            class="method-args">(*flags)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Provide a “magic singleton”.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="fm-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 52</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fm</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
+  <span class="ruby-ivar">@fm</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-identifier">flags</span>.<span class="ruby-identifier">to_s</span>) <span class="ruby-keyword">if</span> <span class="ruby-ivar">@fm</span>[<span class="ruby-identifier">flags</span>].<span class="ruby-identifier">closed?</span>
+  <span class="ruby-ivar">@fm</span>[<span class="ruby-identifier">flags</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- fm-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- fm-method -->
+
+    
+      <div id="method-c-mime" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">mime</span><span
+            class="method-args">(*flags, &block)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Just a short-cut to open with the <code>mime</code> flag set.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="mime-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">mime</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+  <span class="ruby-identifier">open</span>(<span class="ruby-value">:mime</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- mime-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- mime-method -->
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(*args)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p><a href="FileMagic.html#method-c-new">::new</a></p>
+          
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre>static VALUE
+rb_magic_new(int argc, VALUE *argv, VALUE class) {
+  VALUE obj, args[2];
+  magic_t cookie;
+
+  if (rb_block_given_p()) {
+    rb_warn(&quot;FileMagic::new() does not take block; use FileMagic::open() instead&quot;);
+  }
+
+  if (argc &gt; 0 &amp;&amp; TYPE(args[1] = argv[argc - 1]) == T_HASH) {
+    argc--;
+  }
+  else {
+    args[1] = rb_hash_new();
+  }
+
+  args[0] = rb_magic_flags_to_int(argc, argv);
+
+  if ((cookie = magic_open(NUM2INT(args[0]))) == NULL) {
+    rb_fatal(&quot;out of memory&quot;);
+  }
+
+  if (magic_load(cookie, NULL) == -1) {
+    rb_fatal(&quot;%s&quot;, magic_error(cookie));
+  }
+
+  obj = Data_Wrap_Struct(class, 0, rb_magic_free, cookie);
+  rb_obj_call_init(obj, 2, args);
+
+  return obj;
+}</pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-open" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">open</span><span
+            class="method-args">(*flags) { |fm| ... }</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Just like new, but takes an optional block, in which case <a
+href="FileMagic.html#method-i-close">close</a> is called at the end and the
+value of the block is returned.</p>
+          
+          
+
+          
+          <div class="method-source-code" id="open-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 65</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">open</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
+  <span class="ruby-identifier">fm</span> = <span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
+
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+    <span class="ruby-keyword">begin</span>
+      <span class="ruby-keyword">yield</span> <span class="ruby-identifier">fm</span>
+    <span class="ruby-keyword">ensure</span>
+      <span class="ruby-identifier">fm</span>.<span class="ruby-identifier">close</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">fm</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- open-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- open-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-buffer" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">buffer</span><span
+            class="method-args">(p1, p2 = v2)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a string describing the string buffer</p>
+          
+          
+
+          
+          <div class="method-source-code" id="buffer-source">
+            <pre>static VALUE
+rb_magic_buffer(int argc, VALUE *argv, VALUE self) {
+  VALUE buffer, s;
+  const char *m;
+  magic_t cookie;
+
+  rb_scan_args(argc, argv, &quot;11&quot;, &amp;buffer, &amp;s);
+
+  m = StringValuePtr(buffer);
+  GetMagicCookie(self, cookie);
+
+  if ((m = magic_buffer(cookie, m, RSTRING_LEN(buffer))) == NULL) {
+    rb_raise(rb_FileMagicError, &quot;%s&quot;, magic_error(cookie));
+  }
+
+  return rb_magic_apply_simple(self, m, s);
+}</pre>
+          </div><!-- buffer-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- buffer-method -->
+
+    
+      <div id="method-i-check" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">check</span><span
+            class="method-args">(p1 = v1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Checks validity of a magic database file</p>
+          
+          
+
+          
+          <div class="method-source-code" id="check-source">
+            <pre>static VALUE
+rb_magic_check(int argc, VALUE *argv, VALUE self) {
+  VALUE s;
+  const char *file;
+  int retval;
+  magic_t cookie;
+
+  file = rb_scan_args(argc, argv, &quot;01&quot;, &amp;s) == 1 ? StringValuePtr(s) : NULL;
+
+  GetMagicCookie(self, cookie);
+  retval = magic_check(cookie, file);
+
+  return INT2FIX(retval);
+}</pre>
+          </div><!-- check-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- check-method -->
+
+    
+      <div id="method-i-close" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">close</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Frees resources allocated</p>
+          
+          
+
+          
+          <div class="method-source-code" id="close-source">
+            <pre>static VALUE
+rb_magic_close(VALUE self) {
+  magic_t cookie;
+
+  if (RTEST(rb_magic_closed_p(self))) {
+    return Qnil;
+  }
+
+  GetMagicCookie(self, cookie);
+  magic_close(cookie);
+
+  /* This keeps rb_magic_free from trying to free closed objects */
+  RDATA(self)-&gt;data = NULL;
+
+  rb_iv_set(self, &quot;closed&quot;, Qtrue);
+
+  return Qnil;
+}</pre>
+          </div><!-- close-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- close-method -->
+
+    
+      <div id="method-i-closed-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">closed?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="closed-3F-source">
+            <pre>static VALUE
+rb_magic_closed_p(VALUE self) {
+  return rb_attr_get(self, rb_intern(&quot;closed&quot;));
+}</pre>
+          </div><!-- closed-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- closed-3F-method -->
+
+    
+      <div id="method-i-compile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">compile</span><span
+            class="method-args">(p1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Compiles a magic database file</p>
+          
+          
+
+          
+          <div class="method-source-code" id="compile-source">
+            <pre>static VALUE
+rb_magic_compile(VALUE self, VALUE file) {
+  int retval;
+  const char *m;
+  magic_t cookie;
+
+  GetMagicCookie(self, cookie);
+  m = StringValuePtr(file);
+  retval = magic_compile(cookie, m);
+
+  return INT2FIX(retval);
+}</pre>
+          </div><!-- compile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- compile-method -->
+
+    
+      <div id="method-i-file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">file</span><span
+            class="method-args">(p1, p2 = v2)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Return a string describing file</p>
+          
+          
+
+          
+          <div class="method-source-code" id="file-source">
+            <pre>static VALUE
+rb_magic_file(int argc, VALUE *argv, VALUE self) {
+  VALUE file, s;
+  const char *m;
+  magic_t cookie;
+
+  rb_scan_args(argc, argv, &quot;11&quot;, &amp;file, &amp;s);
+
+  m = StringValuePtr(file);
+  GetMagicCookie(self, cookie);
+
+  if ((m = magic_file(cookie, m)) == NULL) {
+    rb_raise(rb_FileMagicError, &quot;%s&quot;, magic_error(cookie));
+  }
+
+  return rb_magic_apply_simple(self, m, s);
+}</pre>
+          </div><!-- file-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- file-method -->
+
+    
+      <div id="method-i-flags" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">flags</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the flags as array of symbols</p>
+          
+          
+
+          
+          <div class="method-source-code" id="flags-source">
+            <pre>static VALUE
+rb_magic_getflags(VALUE self) {
+  VALUE ary = rb_ary_new();
+  VALUE map = rb_const_get(cFileMagic, rb_intern(&quot;FLAGS_BY_INT&quot;));
+  int i = NUM2INT(rb_attr_get(self, rb_intern(&quot;_flags&quot;))), j = 0;
+
+  while ((i -= j) &gt; 0) {
+    j = pow(2, (int)(log(i) / log(2)));
+    rb_ary_unshift(ary, rb_hash_aref(map, INT2FIX(j)));
+  }
+
+  return ary;
+}</pre>
+          </div><!-- flags-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- flags-method -->
+
+    
+      <div id="method-i-flags-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">flags=</span><span
+            class="method-args">(p1)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set flags on the cookie object</p>
+          
+          
+
+          
+          <div class="method-source-code" id="flags-3D-source">
+            <pre>static VALUE
+rb_magic_setflags(VALUE self, VALUE flags) {
+  int retval;
+  magic_t cookie;
+
+  flags = rb_Array(flags);
+  flags = rb_magic_flags_to_int(RARRAY_LEN(flags), RARRAY_PTR(flags));
+  rb_iv_set(self, &quot;_flags&quot;, flags);
+
+  GetMagicCookie(self, cookie);
+  retval = magic_setflags(cookie, NUM2INT(flags));
+
+  return INT2FIX(retval);
+}</pre>
+          </div><!-- flags-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- flags-3D-method -->
+
+    
+      <div id="method-i-inspect" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">inspect</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+            <div class="method-calls-super">
+              Calls superclass method
+              
+            </div>
+          
+
+          
+          <div class="method-source-code" id="inspect-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
+  <span class="ruby-keyword">super</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-value">-2</span>, <span class="ruby-identifier">closed?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39; (closed)&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- inspect-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- inspect-method -->
+
+    
+      <div id="method-i-simplified-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">simplified?</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="simplified-3F-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 88</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">simplified?</span>
+  <span class="ruby-ivar">@simplified</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- simplified-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- simplified-3F-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 4.0.1.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
