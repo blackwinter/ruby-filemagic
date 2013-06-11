@@ -45,7 +45,7 @@ static VALUE rb_magic_setflags(VALUE, VALUE);
 static VALUE rb_magic_check(int, VALUE*, VALUE);
 static VALUE rb_magic_compile(VALUE, VALUE);
 
-static VALUE rb_magic_flags_to_int(int, VALUE*);
+static VALUE rb_magic_flags_to_int(VALUE);
 static VALUE rb_magic_apply_simple(VALUE, const char*, VALUE);
 
 static void rb_magic_free(magic_t);

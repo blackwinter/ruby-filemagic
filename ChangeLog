@@ -2,6 +2,12 @@
 
 = Revision history for ruby-filemagic
 
+== 0.5.0 [unreleased]
+
+* Removed usage of +RARRAY_PTR+ (cf. Ruby bug
+  {#8399}[https://bugs.ruby-lang.org/issues/8399]).
+* Housekeeping.
+
 == 0.4.2 [2010-09-16]
 
 * Not all versions/distributions have file/patchlevel.h

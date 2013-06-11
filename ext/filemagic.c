@@ -32,7 +32,7 @@ rb_magic_new(int argc, VALUE *argv, VALUE class) {
     args[1] = rb_hash_new();
   }
 
-  args[0] = rb_magic_flags_to_int(argc, argv);
+  args[0] = rb_magic_flags_to_int(rb_ary_new4(argc, argv));
 
   if ((cookie = magic_open(NUM2INT(args[0]))) == NULL) {
     rb_fatal("out of memory");
@@ -166,7 +166,7 @@ rb_magic_setflags(VALUE self, VALUE flags) {
   magic_t cookie;
 
   flags = rb_Array(flags);
-  flags = rb_magic_flags_to_int(RARRAY_LEN(flags), RARRAY_PTR(flags));
+  flags = rb_magic_flags_to_int(flags);
   rb_iv_set(self, "_flags", flags);
 
   GetMagicCookie(self, cookie);
@@ -206,13 +206,13 @@ rb_magic_compile(VALUE self, VALUE file) {
 }
 
 static VALUE
-rb_magic_flags_to_int(int argc, VALUE *argv) {
+rb_magic_flags_to_int(VALUE ary) {
   VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_SYM"));
   VALUE f, g;
   int i = MAGIC_NONE, j;
 
-  for (j = 0; j < argc; j++) {
-    f = argv[j];
+  for (j = 0; j < RARRAY_LEN(ary); j++) {
+    f = rb_ary_entry(ary, j);
 
     switch (TYPE(f)) {
       case T_SYMBOL:
@@ -271,9 +271,9 @@ rb_magic_free(magic_t cookie) {
 
 void
 Init_filemagic() {
+  char version[8] = "0";
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 
-  char version[8] = "0";
 #ifdef FILE_VERSION_MAJOR
   sprintf(version, "%d.%02d", FILE_VERSION_MAJOR, patchlevel);
 #endif
