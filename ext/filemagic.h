@@ -12,14 +12,8 @@
 #ifndef RSTRING_LEN
 #define RSTRING_LEN(s) (RSTRING(s)->len)
 #endif
-#ifndef RSTRING_PTR
-#define RSTRING_PTR(s) (RSTRING(s)->ptr)
-#endif
 #ifndef RARRAY_LEN
 #define RARRAY_LEN(s) (RARRAY(s)->len)
-#endif
-#ifndef RARRAY_PTR
-#define RARRAY_PTR(s) (RARRAY(s)->ptr)
 #endif
 
 #define GetMagicCookie(obj, cookie) {\
