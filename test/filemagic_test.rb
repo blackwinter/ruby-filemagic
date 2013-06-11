@@ -7,7 +7,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
 
     res = fm.file(path_to('pyfile'))
-    assert_equal('a python script text executable', res)
+    assert_equal('Python script, ASCII text executable', res)
 
     if File.symlink?(path_to('pylink'))
       res = fm.file(path_to('pylink'))
@@ -18,7 +18,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
 
     res = fm.file(path_to('pylink'))
-    assert_equal('a python script text executable', res)
+    assert_equal('Python script, ASCII text executable', res)
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
@@ -30,7 +30,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
 
     res = fm.file(path_to('pyfile-compressed.gz'))
-    assert_match(/^a python script text executable \(gzip compressed data, was "pyfile-compressed", from Unix/, res)
+    assert_match(/^Python script, ASCII text executable \(gzip compressed data, was "pyfile-compressed", from Unix/, res)
 
     fm.close
   end
@@ -39,7 +39,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = fm.buffer("#!/bin/sh\n")
     fm.close
-    assert_match(/shell script text executable$/, res)
+    assert_equal('POSIX shell script, ASCII text executable', res)
   end
 
   def test_check
@@ -64,7 +64,7 @@ class TestFileMagic < Test::Unit::TestCase
       block_fm = fm
       fm.file(path_to('pyfile'))
     }
-    assert_equal('a python script text executable', res)
+    assert_equal('Python script, ASCII text executable', res)
     assert block_fm.closed?
   end
 
@@ -97,7 +97,7 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_file
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_NONE
-    assert_equal('ASCII C program text', fm.file(path_to('mahoro.c')))
+    assert_equal('C source, ASCII text', fm.file(path_to('mahoro.c')))
   end
 
   def test_mahoro_mime_file
@@ -109,7 +109,7 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_buffer
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_NONE
-    assert_equal('ASCII C program text', fm.buffer(File.read(path_to('mahoro.c'))))
+    assert_equal('C source, ASCII text', fm.buffer(File.read(path_to('mahoro.c'))))
   end
 
   def test_mahoro_mime_buffer
@@ -134,7 +134,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm.simplified = true
     assert fm.simplified?
     assert_equal('text/plain', fm.file(path_to('perl')))
-    assert_equal('application/vnd.ms-office', fm.file(path_to('excel-example.xls')))
+    assert_equal('application/msword', fm.file(path_to('excel-example.xls')))
   end
 
   # utility methods:
