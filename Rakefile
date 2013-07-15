@@ -10,6 +10,7 @@ begin
       :summary      => 'Ruby bindings to the magic(4) library',
       :authors      => ['Travis Whitton', 'Jens Wille'],
       :email        => ['tinymountain@gmail.com', 'jens.wille@gmail.com'],
+      :license      => %q{Ruby},
       :homepage     => :blackwinter,
       :extra_files  => FileList['info/*'].to_a,
       :dependencies => %w[],
