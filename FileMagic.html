@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class FileMagic - ruby-filemagic Application documentation (v0.4.2)</title>
+<title>class FileMagic - ruby-filemagic Application documentation (v0.5.0)</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -495,7 +495,7 @@ rb_magic_new(int argc, VALUE *argv, VALUE class) {
     args[1] = rb_hash_new();
   }
 
-  args[0] = rb_magic_flags_to_int(argc, argv);
+  args[0] = rb_magic_flags_to_int(rb_ary_new4(argc, argv));
 
   if ((cookie = magic_open(NUM2INT(args[0]))) == NULL) {
     rb_fatal(&quot;out of memory&quot;);
@@ -894,7 +894,7 @@ rb_magic_setflags(VALUE self, VALUE flags) {
   magic_t cookie;
 
   flags = rb_Array(flags);
-  flags = rb_magic_flags_to_int(RARRAY_LEN(flags), RARRAY_PTR(flags));
+  flags = rb_magic_flags_to_int(flags);
   rb_iv_set(self, &quot;_flags&quot;, flags);
 
   GetMagicCookie(self, cookie);
