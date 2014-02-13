@@ -1,13 +1,12 @@
-= FileMagic Library Binding
+# FileMagic Library Binding
 
-== VERSION
+## VERSION
 
 This documentation refers to filemagic version 0.5.0
 
+## DESCRIPTION
 
-== DESCRIPTION
-
-=== Revised version
+### Revised version
 
 September 12, 2008 Jens Wille <jens.wille@gmail.com>
 
@@ -19,7 +18,7 @@ Install the gem:
 
   sudo gem install ruby-filemagic
 
-=== Original package
+### Original package
 
 July 28, 2003 Travis Whitton <tinymountain@gmail.com>
 
@@ -40,7 +39,7 @@ Enjoy!
 Travis
 
 
-== LINKS
+## LINKS
 
 <b></b>
 Homepage (defunct):: http://grub.ath.cx/filemagic/
@@ -49,26 +48,26 @@ Source code::        http://github.com/blackwinter/ruby-filemagic
 RubyGem::            http://rubygems.org/gems/ruby-filemagic
 
 
-== AUTHORS
+## AUTHORS
 
 * Travis Whitton <mailto:tinymountain@gmail.com> (Original author)
 * Jens Wille <mailto:jens.wille@gmail.com>
 
 
-== CREDITS
+## CREDITS
 
 * Martin Carpenter <mailto:mcarpenter@free.fr> for Ruby 1.9.2 compatibility
   and other improvements.
 
 
-== COPYING
+## COPYING
 
 The filemagic extension library is copywrited free software by Travis Whitton
 <tinymountain@gmail.com>. You can redistribute it under the terms specified in
 the COPYING file of the Ruby distribution.
 
 
-== WARRANTY
+## WARRANTY
 
 THIS SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS OR
 IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
