@@ -43,7 +43,7 @@ class FileMagic
   SIMPLE_RE = %r{([.\w\/-]+)}
 
   @fm = Hash.new { |fm, flags|
-    fm.has_key?(key = flags.to_s) ? fm[key] : fm[key] = new(*flags)
+    fm.key?(key = flags.to_s) ? fm[key] : fm[key] = new(*flags)
   }
 
   class << self
