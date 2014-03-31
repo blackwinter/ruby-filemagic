@@ -16,8 +16,7 @@ begin
       :dependencies => %w[],
       :extension    => {
         :name          => 'filemagic',
-        :ext_dir       => 'ext',
-        :lib_dir       => 'lib',
+        :ext_name      => nil,
         :cross_compile => false
       }
     }
