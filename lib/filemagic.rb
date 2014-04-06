@@ -1,4 +1,4 @@
-require 'filemagic.so'
+require 'filemagic/ruby_filemagic'
 require 'filemagic/version'
 
 class FileMagic

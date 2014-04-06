@@ -270,7 +270,7 @@ rb_magic_free(magic_t cookie) {
 }
 
 void
-Init_filemagic() {
+Init_ruby_filemagic() {
   char version[8] = "0";
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 

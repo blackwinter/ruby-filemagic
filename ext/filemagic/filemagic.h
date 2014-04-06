@@ -43,6 +43,6 @@ static VALUE rb_magic_flags_to_int(VALUE);
 static VALUE rb_magic_apply_simple(VALUE, const char*, VALUE);
 
 static void rb_magic_free(magic_t);
-void Init_filemagic(void);
+void Init_ruby_filemagic(void);
 
 #endif /* FILEMAGIC_H */

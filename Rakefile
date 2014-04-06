@@ -15,8 +15,8 @@ begin
       :extra_files  => FileList['info/*'].to_a,
       :dependencies => %w[],
       :extension    => {
-        :name          => 'filemagic',
-        :ext_name      => nil,
+        :name          => 'ruby_filemagic',
+        :ext_name      => 'filemagic',
         :cross_compile => false
       }
     }
