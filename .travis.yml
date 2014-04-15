@@ -6,14 +6,11 @@ rvm:
   - '2.0.0'
   - '2.1.1'
   - ruby-head
-  - jruby-19mode
-  - jruby-head
   - rbx
 
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-head
     - rvm: rbx
 
   fast_finish:
