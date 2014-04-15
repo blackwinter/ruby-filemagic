@@ -1,0 +1,30 @@
+language:
+  ruby
+
+rvm:
+  - '1.9.3'
+  - '2.0.0'
+  - '2.1.1'
+  - ruby-head
+  - jruby-19mode
+  - jruby-head
+  - rbx
+
+matrix:
+  allow_failures:
+    - rvm: ruby-head
+    - rvm: jruby-head
+    - rvm: rbx
+
+  fast_finish:
+    true
+
+script:
+  rake test
+
+install:
+  gem install --development ruby-filemagic
+
+before_install:
+  - sudo apt-get update -qq
+  - sudo apt-get install -y libmagic-dev
