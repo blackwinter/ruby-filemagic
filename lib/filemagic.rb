@@ -89,6 +89,10 @@ class FileMagic
     @simplified
   end
 
+  def io(io, length = 8)
+    buffer(io.read(length))
+  end
+
   def inspect
     super.insert(-2, closed? ? ' (closed)' : '')
   end
