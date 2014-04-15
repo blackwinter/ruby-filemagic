@@ -2,6 +2,11 @@
 
 = Revision history for ruby-filemagic
 
+== 0.5.1 [2014-04-15]
+
+* New method FileMagic#io.
+* Housekeeping.
+
 == 0.5.0 [2013-12-19]
 
 * Removed usage of +RARRAY_PTR+ (cf. Ruby bug
