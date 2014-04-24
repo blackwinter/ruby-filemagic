@@ -2,6 +2,10 @@
 
 = Revision history for ruby-filemagic
 
+== 0.5.2 [unreleased]
+
+* Use MAGIC_VERSION if available.
+
 == 0.5.1 [2014-04-15]
 
 * New method FileMagic#io.

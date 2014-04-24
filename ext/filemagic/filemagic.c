@@ -269,14 +269,19 @@ rb_magic_free(magic_t cookie) {
   magic_close(cookie);
 }
 
+#define RB_MAGIC_SET_VERSION(m, p) sprintf(version, "%d.%02d", m, p);
+
 void
 Init_ruby_filemagic() {
   char version[8] = "0";
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 
-#ifdef FILE_VERSION_MAJOR
-  sprintf(version, "%d.%02d", FILE_VERSION_MAJOR, patchlevel);
+#if defined(FILE_VERSION_MAJOR)
+  RB_MAGIC_SET_VERSION(FILE_VERSION_MAJOR, patchlevel)
+#elif defined(MAGIC_VERSION)
+  RB_MAGIC_SET_VERSION(MAGIC_VERSION / 100, MAGIC_VERSION % 100)
 #endif
+
   rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
 
   rb_define_singleton_method(cFileMagic, "new", rb_magic_new, -1);
