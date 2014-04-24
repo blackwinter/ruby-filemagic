@@ -2,7 +2,7 @@
 
 = Revision history for ruby-filemagic
 
-== 0.5.2 [unreleased]
+== 0.5.2 [2014-04-24]
 
 * Use MAGIC_VERSION if available.
 * Made tests more robust.
