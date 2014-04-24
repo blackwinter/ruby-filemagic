@@ -5,6 +5,7 @@
 == 0.5.2 [unreleased]
 
 * Use MAGIC_VERSION if available.
+* Made tests more robust.
 
 == 0.5.1 [2014-04-15]
 

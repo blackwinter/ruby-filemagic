@@ -3,11 +3,25 @@ require 'filemagic'
 
 class TestFileMagic < Test::Unit::TestCase
 
+  magic_version = FileMagic::MAGIC_VERSION != '0' ? FileMagic::MAGIC_VERSION :
+    ENV['MAGIC_VERSION'] || begin
+    require 'nuggets/file/which'
+    %x{dpkg-query -f '${Version}' -W libmagic-dev} if File.which('dpkg-query')
+  rescue LoadError
+  end
+
+  MAGIC_VERSION = magic_version.to_f
+
   def test_file
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
 
+    python_script = match_version(
+      0    => 'a python script, ASCII text executable',
+      5.11 => 'Python script, ASCII text executable'
+    )
+
     res = fm.file(path_to('pyfile'))
-    assert_equal('Python script, ASCII text executable', res)
+    assert_equal(python_script, res)
 
     if File.symlink?(path_to('pylink'))
       res = fm.file(path_to('pylink'))
@@ -18,7 +32,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
 
     res = fm.file(path_to('pylink'))
-    assert_equal('Python script, ASCII text executable', res)
+    assert_equal(python_script, res)
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
@@ -30,7 +44,7 @@ class TestFileMagic < Test::Unit::TestCase
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
 
     res = fm.file(path_to('pyfile-compressed.gz'))
-    assert_match(/^Python script, ASCII text executable \(gzip compressed data, was "pyfile-compressed", from Unix/, res)
+    assert_match(/^#{python_script} \(gzip compressed data, was "pyfile-compressed", from Unix/, res)
 
     fm.close
   end
@@ -64,7 +78,10 @@ class TestFileMagic < Test::Unit::TestCase
       block_fm = fm
       fm.file(path_to('pyfile'))
     }
-    assert_equal('Python script, ASCII text executable', res)
+    assert_equal(match_version(
+      0    => 'a python script, ASCII text executable',
+      5.11 => 'Python script, ASCII text executable'
+    ), res)
     assert block_fm.closed?
   end
 
@@ -97,7 +114,10 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_file
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_NONE
-    assert_equal('C source, ASCII text', fm.file(path_to('mahoro.c')))
+    assert_equal(match_version(
+      0    => 'ASCII C program text',
+      5.11 => 'C source, ASCII text'
+    ), fm.file(path_to('mahoro.c')))
   end
 
   def test_mahoro_mime_file
@@ -109,7 +129,10 @@ class TestFileMagic < Test::Unit::TestCase
   def test_mahoro_buffer
     fm = FileMagic.new
     fm.flags = FileMagic::MAGIC_NONE
-    assert_equal('C source, ASCII text', fm.buffer(File.read(path_to('mahoro.c'))))
+    assert_equal(match_version(
+      0    => 'ASCII C program text',
+      5.11 => 'C source, ASCII text'
+    ), fm.buffer(File.read(path_to('mahoro.c'))))
   end
 
   def test_mahoro_mime_buffer
@@ -134,7 +157,10 @@ class TestFileMagic < Test::Unit::TestCase
     fm.simplified = true
     assert fm.simplified?
     assert_equal('text/plain', fm.file(path_to('perl')))
-    assert_equal('application/msword', fm.file(path_to('excel-example.xls')))
+    assert_equal(match_version(
+      0    => 'application/vnd.ms-office',
+      5.11 => 'application/msword'
+    ), fm.file(path_to('excel-example.xls')))
   end
 
   # utility methods:
@@ -148,6 +174,10 @@ class TestFileMagic < Test::Unit::TestCase
     $stderr.redirect { yield }
   rescue LoadError
     yield
+  end
+
+  def match_version(versions)
+    versions.sort_by { |k,| -k }.find { |k,| k <= MAGIC_VERSION }.last
   end
 
 end
