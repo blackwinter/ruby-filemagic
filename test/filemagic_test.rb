@@ -25,7 +25,7 @@ class TestFileMagic < Test::Unit::TestCase
 
     if File.symlink?(path_to('pylink'))
       res = fm.file(path_to('pylink'))
-      assert_equal("symbolic link to `pyfile'", res)
+      assert_equal("symbolic link to `pyfile'", res.strip)
     end
 
     fm.close
@@ -159,7 +159,8 @@ class TestFileMagic < Test::Unit::TestCase
     assert_equal('text/plain', fm.file(path_to('perl')))
     assert_equal(match_version(
       0    => 'application/vnd.ms-office',
-      5.11 => 'application/msword'
+      5.11 => 'application/msword',
+      5.14 => 'application/vnd.ms-office'
     ), fm.file(path_to('excel-example.xls')))
   end
 
