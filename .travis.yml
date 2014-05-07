@@ -20,7 +20,7 @@ script:
   rake test
 
 install:
-  gem install --development ruby-filemagic
+  gem install --prerelease --development ruby-filemagic
 
 before_install:
   - sudo apt-get update -qq
