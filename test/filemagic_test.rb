@@ -27,7 +27,12 @@ class TestFileMagic < Test::Unit::TestCase
 
   MAGIC_VERSION = magic_version.to_f
 
-  warn "\nlibmagic version: #{MAGIC_VERSION}#{" (#{origin})" if origin}\n\n"
+  warn <<-EOT
+
+libmagic version: #{MAGIC_VERSION}#{" (#{origin})" if origin}
+magic file from #{FileMagic.path}
+
+  EOT
 
   def test_file
     fm = FileMagic.new(FileMagic::MAGIC_NONE)

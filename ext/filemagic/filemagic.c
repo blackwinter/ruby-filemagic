@@ -15,6 +15,12 @@
 
 #include "filemagic.h"
 
+/* Returns the magic path */
+static VALUE
+rb_magic_getpath(VALUE class) {
+  return rb_str_new2(magic_getpath(NULL, 0));
+}
+
 /* FileMagic.new */
 static VALUE
 rb_magic_new(int argc, VALUE *argv, VALUE class) {
@@ -284,7 +290,8 @@ Init_ruby_filemagic() {
 
   rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
 
-  rb_define_singleton_method(cFileMagic, "new", rb_magic_new, -1);
+  rb_define_singleton_method(cFileMagic, "new", rb_magic_new,      -1);
+  rb_define_singleton_method(cFileMagic, "path", rb_magic_getpath,  0);
 
   rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);
   rb_define_method(cFileMagic, "close",      rb_magic_close,     0);
