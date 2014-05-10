@@ -3,28 +3,7 @@ require 'filemagic'
 
 class TestFileMagic < Test::Unit::TestCase
 
-  magic_version = FileMagic::MAGIC_VERSION
-
-  if magic_version == '0'
-    origin = 'unknown'
-
-    if ENV['MAGIC_VERSION']
-      magic_version, origin = ENV['MAGIC_VERSION'], 'user-specified'
-    else
-      begin
-        require 'nuggets/file/which'
-
-        if cmd = File.which_command([
-          'dpkg-query -f \'${Version}\' -W libmagic-dev',
-          'file -v'
-        ])
-          magic_version, origin = %x{#{cmd}}[/\d+\.\d+/], 'auto-detected'
-        end
-      rescue LoadError
-      end
-    end
-  end
-
+  magic_version, origin = FileMagic.magic_version
   MAGIC_VERSION = magic_version.to_f
 
   warn <<-EOT

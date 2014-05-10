@@ -81,6 +81,31 @@ class FileMagic
       open(:mime, *flags, &block)
     end
 
+    def magic_version(default = MAGIC_VERSION)
+      default != '0' ? default :
+        user_magic_version ||
+        auto_magic_version ||
+        [default, 'unknown']
+    end
+
+    private
+
+    def user_magic_version(key = 'MAGIC_VERSION')
+      [ENV[key], 'user-specified'] if ENV[key]
+    end
+
+    def auto_magic_version
+      require 'nuggets/file/which'
+
+      if cmd = File.which_command([
+        'dpkg-query -f \'${Version}\' -W libmagic-dev',
+        'file -v'
+      ])
+        [%x{#{cmd}}[/\d+\.\d+/], 'auto-detected']
+      end
+    rescue LoadError
+    end
+
   end
 
   attr_writer :simplified
