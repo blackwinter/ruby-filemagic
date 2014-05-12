@@ -28,7 +28,12 @@ class FileMagic
     :no_check_cdf,       # Don't check for cdf files
     :no_check_tokens,    # Don't check ascii/tokens
     :no_check_encoding,  # Don't check text encodings
+    :no_check_builtin,   # No built-in tests; only consult the magic file
+
+    # Defined for backwards compatibility (renamed)
     :no_check_ascii,     # MAGIC_NO_CHECK_TEXT
+
+    # Defined for backwards compatibility; do nothing
     :no_check_fortran,   # Don't check ascii/fortran
     :no_check_troff      # Don't check ascii/troff
   ].inject({}) { |flags, flag|

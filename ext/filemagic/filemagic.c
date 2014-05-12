@@ -376,6 +376,10 @@ Init_ruby_filemagic() {
 #ifdef MAGIC_NO_CHECK_ENCODING
   rb_define_const(cFileMagic, "MAGIC_NO_CHECK_ENCODING", INT2FIX(MAGIC_NO_CHECK_ENCODING));
 #endif
+#if defined(MAGIC_NO_CHECK_BUILTIN) && MAGIC_VERSION > 514
+  /* defined in b5be901 (2010-01-28, 5.05), but broken until 38e0136 (2013-08-15, 5.15) */
+  rb_define_const(cFileMagic, "MAGIC_NO_CHECK_BUILTIN",  INT2FIX(MAGIC_NO_CHECK_BUILTIN));
+#endif
 #ifdef MAGIC_NO_CHECK_ASCII
   rb_define_const(cFileMagic, "MAGIC_NO_CHECK_ASCII",    INT2FIX(MAGIC_NO_CHECK_ASCII));
 #endif
