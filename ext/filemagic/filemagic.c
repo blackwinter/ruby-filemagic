@@ -185,8 +185,8 @@ rb_magic_setflags(VALUE self, VALUE flags) {
 static VALUE
 rb_magic_check(int argc, VALUE *argv, VALUE self) {
   VALUE s;
-  const char *file;
   int retval;
+  const char *file;
   magic_t cookie;
 
   file = rb_scan_args(argc, argv, "01", &s) == 1 ? StringValuePtr(s) : NULL;
@@ -201,12 +201,26 @@ rb_magic_check(int argc, VALUE *argv, VALUE self) {
 static VALUE
 rb_magic_compile(VALUE self, VALUE file) {
   int retval;
-  const char *m;
   magic_t cookie;
 
   GetMagicCookie(self, cookie);
-  m = StringValuePtr(file);
-  retval = magic_compile(cookie, m);
+  retval = magic_compile(cookie, StringValuePtr(file));
+
+  return INT2FIX(retval);
+}
+
+/* Lists a magic database file */
+static VALUE
+rb_magic_list(int argc, VALUE *argv, VALUE self) {
+  VALUE s;
+  int retval;
+  const char *file;
+  magic_t cookie;
+
+  file = rb_scan_args(argc, argv, "01", &s) == 1 ? StringValuePtr(s) : NULL;
+
+  GetMagicCookie(self, cookie);
+  retval = magic_list(cookie, file);
 
   return INT2FIX(retval);
 }
@@ -290,7 +304,7 @@ Init_ruby_filemagic() {
 
   rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
 
-  rb_define_singleton_method(cFileMagic, "new", rb_magic_new,      -1);
+  rb_define_singleton_method(cFileMagic, "new",  rb_magic_new,     -1);
   rb_define_singleton_method(cFileMagic, "path", rb_magic_getpath,  0);
 
   rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);
@@ -302,6 +316,7 @@ Init_ruby_filemagic() {
   rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,  1);
   rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
   rb_define_method(cFileMagic, "compile",    rb_magic_compile,   1);
+  rb_define_method(cFileMagic, "list",       rb_magic_list,     -1);
 
   rb_alias(cFileMagic, rb_intern("valid?"), rb_intern("check"));
 
