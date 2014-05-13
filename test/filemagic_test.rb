@@ -86,6 +86,14 @@ magic file from #{FileMagic.path}
     assert block_fm.closed?
   end
 
+  def test_flags_to_int
+    assert_raise(TypeError) { FileMagic.flags(0) }
+    assert_equal(0, FileMagic.flags([FileMagic::MAGIC_NONE]))
+    assert_equal(0, FileMagic.flags([:none]))
+    assert_equal(0, FileMagic.flags([]))
+    assert_equal(1072, FileMagic.flags([:mime, :continue]))
+  end
+
   def test_setflags
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     assert_equal([], fm.flags)
@@ -96,7 +104,7 @@ magic file from #{FileMagic.path}
 
   def test_abbr
     fm = FileMagic.new(:mime, :continue)
-    assert_equal([:mime_type, :continue, :mime_encoding] , fm.flags)
+    assert_equal([:mime_type, :continue, :mime_encoding], fm.flags)
     fm.flags = :symlink
     assert_equal([:symlink], fm.flags)
     fm.close

@@ -1,34 +1,61 @@
-/*********************************************************
-
- filemagic.c
-
- a Ruby extension to bind Ruby to the libmagic library
- (ftp://ftp.astron.com/pub/file/)
-
- patterned very closely off of audiofile.c by jaredj which
- is patterned very very closely off of gdbm.c by matz ;-)
-
- $Author: twhitton $
- $Date: 2003/07/30 13:25:10 $
-
-*********************************************************/
-
 #include "filemagic.h"
 
 /* Returns the magic path */
 static VALUE
-rb_magic_getpath(VALUE class) {
+rb_magic_getpath(VALUE klass) {
   return rb_str_new2(magic_getpath(NULL, 0));
+}
+
+/* Converts flags to integer */
+static VALUE
+rb_magic_flags(VALUE klass, VALUE flags) {
+  VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_SYM")), f, g;
+  int i = MAGIC_NONE, j;
+
+  if (TYPE(flags) != T_ARRAY) {
+    rb_raise(rb_eTypeError,
+      "wrong argument type %s (expected Array)",
+      rb_obj_classname(flags));
+  }
+
+  for (j = 0; j < RARRAY_LEN(flags); j++) {
+    f = rb_ary_entry(flags, j);
+
+    switch (TYPE(f)) {
+      case T_SYMBOL:
+        if (RTEST(g = rb_hash_aref(map, f))) {
+          f = g;
+          /* fall through */
+        }
+        else {
+          f = rb_funcall(f, rb_intern("inspect"), 0);
+          rb_raise(rb_eArgError, "%s: %s",
+            NIL_P(g) ? "no such flag" : "flag not available",
+            StringValueCStr(f));
+
+          break;
+        }
+      case T_FIXNUM:
+        i |= NUM2INT(f);
+        break;
+      default:
+        rb_raise(rb_eTypeError,
+          "wrong argument type %s (expected Fixnum or Symbol)",
+          rb_obj_classname(f));
+    }
+  }
+
+  return INT2FIX(i);
 }
 
 /* FileMagic.new */
 static VALUE
-rb_magic_new(int argc, VALUE *argv, VALUE class) {
+rb_magic_new(int argc, VALUE *argv, VALUE klass) {
   VALUE obj, args[2];
-  magic_t cookie;
+  magic_t ms;
 
   if (rb_block_given_p()) {
-    rb_warn("FileMagic::new() does not take block; use FileMagic::open() instead");
+    rb_warn("FileMagic.new() does not take a block; use FileMagic.open() instead");
   }
 
   if (argc > 0 && TYPE(args[1] = argv[argc - 1]) == T_HASH) {
@@ -38,20 +65,25 @@ rb_magic_new(int argc, VALUE *argv, VALUE class) {
     args[1] = rb_hash_new();
   }
 
-  args[0] = rb_magic_flags_to_int(rb_ary_new4(argc, argv));
+  args[0] = rb_magic_flags(klass, rb_ary_new4(argc, argv));
 
-  if ((cookie = magic_open(NUM2INT(args[0]))) == NULL) {
+  if ((ms = magic_open(NUM2INT(args[0]))) == NULL) {
     rb_fatal("out of memory");
   }
 
-  if (magic_load(cookie, NULL) == -1) {
-    rb_fatal("%s", magic_error(cookie));
+  if (magic_load(ms, NULL) == -1) {
+    rb_fatal("%s", magic_error(ms));
   }
 
-  obj = Data_Wrap_Struct(class, 0, rb_magic_free, cookie);
+  obj = Data_Wrap_Struct(klass, 0, rb_magic_free, ms);
   rb_obj_call_init(obj, 2, args);
 
   return obj;
+}
+
+static void
+rb_magic_free(magic_t ms) {
+  magic_close(ms);
 }
 
 static VALUE
@@ -64,16 +96,14 @@ rb_magic_init(int argc, VALUE *argv, VALUE self) {
     options = rb_hash_new();
   }
 
-  rb_iv_set(self, "_flags", flags);
+  rb_iv_set(self, "iflags", flags);
   rb_iv_set(self, "closed", Qfalse);
 
   keys = rb_funcall(options, rb_intern("keys"), 0);
 
   for (i = 0; i < RARRAY_LEN(keys); i++) {
-    k = rb_funcall(keys, rb_intern("[]"), 1, INT2FIX(i));
-    m = rb_funcall(rb_funcall(k, rb_intern("to_s"), 0),
-      rb_intern("+"), 1, rb_str_new2("=")
-    );
+    k = rb_ary_entry(keys, i);
+    m = rb_str_plus(rb_obj_as_string(k), rb_str_new2("="));
 
     if (rb_respond_to(self, mid = rb_intern(StringValueCStr(m)))) {
       rb_funcall(self, mid, 1, rb_hash_aref(options, k));
@@ -90,14 +120,14 @@ rb_magic_init(int argc, VALUE *argv, VALUE self) {
 /* Frees resources allocated */
 static VALUE
 rb_magic_close(VALUE self) {
-  magic_t cookie;
+  magic_t ms;
 
   if (RTEST(rb_magic_closed_p(self))) {
     return Qnil;
   }
 
-  GetMagicCookie(self, cookie);
-  magic_close(cookie);
+  GetMagicSet(self, ms);
+  rb_magic_free(ms);
 
   /* This keeps rb_magic_free from trying to free closed objects */
   RDATA(self)->data = NULL;
@@ -113,49 +143,17 @@ rb_magic_closed_p(VALUE self) {
 }
 
 /* Return a string describing file */
-static VALUE
-rb_magic_file(int argc, VALUE *argv, VALUE self) {
-  VALUE file, s;
-  const char *m;
-  magic_t cookie;
-
-  rb_scan_args(argc, argv, "11", &file, &s);
-
-  m = StringValuePtr(file);
-  GetMagicCookie(self, cookie);
-
-  if ((m = magic_file(cookie, m)) == NULL) {
-    rb_raise(rb_FileMagicError, "%s", magic_error(cookie));
-  }
-
-  return rb_magic_apply_simple(self, m, s);
-}
+RB_MAGIC_TYPE(file, FILE)
 
 /* Return a string describing the string buffer */
-static VALUE
-rb_magic_buffer(int argc, VALUE *argv, VALUE self) {
-  VALUE buffer, s;
-  const char *m;
-  magic_t cookie;
-
-  rb_scan_args(argc, argv, "11", &buffer, &s);
-
-  m = StringValuePtr(buffer);
-  GetMagicCookie(self, cookie);
-
-  if ((m = magic_buffer(cookie, m, RSTRING_LEN(buffer))) == NULL) {
-    rb_raise(rb_FileMagicError, "%s", magic_error(cookie));
-  }
-
-  return rb_magic_apply_simple(self, m, s);
-}
+RB_MAGIC_TYPE(buffer, BUFFER)
 
 /* Get the flags as array of symbols */
 static VALUE
 rb_magic_getflags(VALUE self) {
   VALUE ary = rb_ary_new();
   VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_INT"));
-  int i = NUM2INT(rb_attr_get(self, rb_intern("_flags"))), j = 0;
+  int i = NUM2INT(rb_attr_get(self, rb_intern("iflags"))), j = 0;
 
   while ((i -= j) > 0) {
     j = pow(2, (int)(log(i) / log(2)));
@@ -165,131 +163,27 @@ rb_magic_getflags(VALUE self) {
   return ary;
 }
 
-/* Set flags on the cookie object */
+/* Set flags on the ms object */
 static VALUE
 rb_magic_setflags(VALUE self, VALUE flags) {
-  int retval;
-  magic_t cookie;
+  magic_t ms;
 
-  flags = rb_Array(flags);
-  flags = rb_magic_flags_to_int(flags);
-  rb_iv_set(self, "_flags", flags);
+  GetMagicSet(self, ms);
 
-  GetMagicCookie(self, cookie);
-  retval = magic_setflags(cookie, NUM2INT(flags));
+  rb_iv_set(self, "iflags",
+    flags = rb_magic_flags(CLASS_OF(self), rb_Array(flags)));
 
-  return INT2FIX(retval);
-}
-
-/* Checks validity of a magic database file */
-static VALUE
-rb_magic_check(int argc, VALUE *argv, VALUE self) {
-  VALUE s;
-  int retval;
-  const char *file;
-  magic_t cookie;
-
-  file = rb_scan_args(argc, argv, "01", &s) == 1 ? StringValuePtr(s) : NULL;
-
-  GetMagicCookie(self, cookie);
-  retval = magic_check(cookie, file);
-
-  return INT2FIX(retval);
-}
-
-/* Compiles a magic database file */
-static VALUE
-rb_magic_compile(VALUE self, VALUE file) {
-  int retval;
-  magic_t cookie;
-
-  GetMagicCookie(self, cookie);
-  retval = magic_compile(cookie, StringValuePtr(file));
-
-  return INT2FIX(retval);
+  return INT2FIX(magic_setflags(ms, NUM2INT(flags)));
 }
 
 /* Lists a magic database file */
-static VALUE
-rb_magic_list(int argc, VALUE *argv, VALUE self) {
-  VALUE s;
-  int retval;
-  const char *file;
-  magic_t cookie;
+RB_MAGIC_APPRENTICE(list)
 
-  file = rb_scan_args(argc, argv, "01", &s) == 1 ? StringValuePtr(s) : NULL;
+/* Checks validity of a magic database file */
+RB_MAGIC_APPRENTICE(check)
 
-  GetMagicCookie(self, cookie);
-  retval = magic_list(cookie, file);
-
-  return INT2FIX(retval);
-}
-
-static VALUE
-rb_magic_flags_to_int(VALUE ary) {
-  VALUE map = rb_const_get(cFileMagic, rb_intern("FLAGS_BY_SYM"));
-  VALUE f, g;
-  int i = MAGIC_NONE, j;
-
-  for (j = 0; j < RARRAY_LEN(ary); j++) {
-    f = rb_ary_entry(ary, j);
-
-    switch (TYPE(f)) {
-      case T_SYMBOL:
-        if (RTEST(g = rb_hash_aref(map, f))) {
-          f = g;
-          /* fall through */
-        }
-        else {
-          f = rb_funcall(f, rb_intern("inspect"), 0);
-          rb_raise(rb_eArgError,
-            "%s: %s",
-            NIL_P(g) ? "no such flag" : "flag not available",
-            StringValueCStr(f)
-          );
-          break;
-        }
-      case T_FIXNUM:
-        i |= NUM2INT(f);
-        break;
-      default:
-        rb_raise(rb_eTypeError,
-          "wrong argument type %s (expected Fixnum or Symbol)",
-          rb_obj_classname(f)
-        );
-    }
-  }
-
-  return INT2FIX(i);
-}
-
-static VALUE
-rb_magic_apply_simple(VALUE self, const char *m, VALUE s) {
-  VALUE str = rb_str_new2(m);
-
-  if (RTEST(NIL_P(s) ? rb_attr_get(self, rb_intern("@simplified")) : s)) {
-    rb_funcall(str, rb_intern("downcase!"), 0);
-
-    return rb_funcall(str, rb_intern("slice"), 2,
-      rb_const_get(cFileMagic, rb_intern("SIMPLE_RE")),
-      INT2FIX(1)
-    );
-  }
-  else {
-    return str;
-  }
-}
-
-/*
- GC never seems to happen until the program terminates, but this is called
- on any unclosed objects
-*/
-static void
-rb_magic_free(magic_t cookie) {
-  magic_close(cookie);
-}
-
-#define RB_MAGIC_SET_VERSION(m, p) sprintf(version, "%d.%02d", m, p);
+/* Compiles a magic database file */
+RB_MAGIC_APPRENTICE(compile)
 
 void
 Init_ruby_filemagic() {
@@ -304,8 +198,9 @@ Init_ruby_filemagic() {
 
   rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
 
-  rb_define_singleton_method(cFileMagic, "new",  rb_magic_new,     -1);
-  rb_define_singleton_method(cFileMagic, "path", rb_magic_getpath,  0);
+  rb_define_singleton_method(cFileMagic, "path",  rb_magic_getpath,  0);
+  rb_define_singleton_method(cFileMagic, "flags", rb_magic_flags,    1);
+  rb_define_singleton_method(cFileMagic, "new",   rb_magic_new,     -1);
 
   rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);
   rb_define_method(cFileMagic, "close",      rb_magic_close,     0);
@@ -314,9 +209,9 @@ Init_ruby_filemagic() {
   rb_define_method(cFileMagic, "buffer",     rb_magic_buffer,   -1);
   rb_define_method(cFileMagic, "flags",      rb_magic_getflags,  0);
   rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,  1);
-  rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
-  rb_define_method(cFileMagic, "compile",    rb_magic_compile,   1);
   rb_define_method(cFileMagic, "list",       rb_magic_list,     -1);
+  rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
+  rb_define_method(cFileMagic, "compile",    rb_magic_compile,  -1);
 
   rb_alias(cFileMagic, rb_intern("valid?"), rb_intern("check"));
 
