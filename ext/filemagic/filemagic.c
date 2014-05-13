@@ -55,7 +55,8 @@ rb_magic_new(int argc, VALUE *argv, VALUE klass) {
   magic_t ms;
 
   if (rb_block_given_p()) {
-    rb_warn("FileMagic.new() does not take a block; use FileMagic.open() instead");
+    rb_warn(
+      "FileMagic.new() does not take a block; use FileMagic.open() instead");
   }
 
   if (argc > 0 && TYPE(args[1] = argv[argc - 1]) == T_HASH) {
@@ -68,11 +69,13 @@ rb_magic_new(int argc, VALUE *argv, VALUE klass) {
   args[0] = rb_magic_flags(klass, rb_ary_new4(argc, argv));
 
   if ((ms = magic_open(NUM2INT(args[0]))) == NULL) {
-    rb_fatal("out of memory");
+    rb_raise(rb_FileMagicError,
+      "failed to initialize magic cookie (%d)", errno || -1);
   }
 
   if (magic_load(ms, NULL) == -1) {
-    rb_fatal("%s", magic_error(ms));
+    rb_raise(rb_FileMagicError,
+      "failed to load database: %s", magic_error(ms));
   }
 
   obj = Data_Wrap_Struct(klass, 0, rb_magic_free, ms);
@@ -130,7 +133,7 @@ rb_magic_close(VALUE self) {
   rb_magic_free(ms);
 
   /* This keeps rb_magic_free from trying to free closed objects */
-  RDATA(self)->data = NULL;
+  DATA_PTR(self) = NULL;
 
   rb_iv_set(self, "closed", Qtrue);
 
@@ -179,6 +182,9 @@ rb_magic_setflags(VALUE self, VALUE flags) {
 /* Lists a magic database file */
 RB_MAGIC_APPRENTICE(list)
 
+/* Loads a magic database file */
+RB_MAGIC_APPRENTICE(load)
+
 /* Checks validity of a magic database file */
 RB_MAGIC_APPRENTICE(check)
 
@@ -210,6 +216,7 @@ Init_ruby_filemagic() {
   rb_define_method(cFileMagic, "flags",      rb_magic_getflags,  0);
   rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,  1);
   rb_define_method(cFileMagic, "list",       rb_magic_list,     -1);
+  rb_define_method(cFileMagic, "load",       rb_magic_load,     -1);
   rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
   rb_define_method(cFileMagic, "compile",    rb_magic_compile,  -1);
 

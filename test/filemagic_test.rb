@@ -61,7 +61,7 @@ magic file from #{FileMagic.path}
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = silence_stderr { fm.check(path_to('perl')) }
     fm.close
-    assert_equal(0, res)
+    assert(res)
   end
 
   def test_compile
@@ -69,7 +69,7 @@ magic file from #{FileMagic.path}
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = fm.compile(path_to('perl'))
     fm.close
-    assert_equal(0, res)
+    assert(res)
     File.unlink(path_to('perl.mgc', '.'))
   end
 

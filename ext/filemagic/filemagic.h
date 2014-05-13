@@ -3,6 +3,7 @@
 
 #include "ruby.h"
 #include <math.h>
+#include <errno.h>
 #include <magic.h>
 #ifdef HAVE_FILE_PATCHLEVEL_H
 #include <file/patchlevel.h>
@@ -41,7 +42,7 @@ rb_magic_##what(int argc, VALUE *argv, VALUE self) {\
   GetMagicSet(self, ms);\
 \
   if ((type = RB_MAGIC_TYPE_##WHAT) == NULL) {\
-    rb_raise(rb_FileMagicError, "%s", magic_error(ms));\
+    rb_raise(rb_FileMagicError, "failed lookup: %s", magic_error(ms));\
   }\
 \
   res = rb_str_new2(type);\
@@ -72,7 +73,7 @@ rb_magic_##what(int argc, VALUE *argv, VALUE self) {\
 \
   GetMagicSet(self, ms);\
 \
-  return INT2FIX(magic_##what(ms, file));\
+  return magic_##what(ms, file) ? Qfalse : Qtrue;\
 }
 
 #define RB_MAGIC_SET_VERSION(m, p) sprintf(version, "%d.%02d", m, p);
@@ -96,6 +97,7 @@ static VALUE rb_magic_getflags(VALUE);
 static VALUE rb_magic_setflags(VALUE, VALUE);
 
 static VALUE rb_magic_list(int, VALUE*, VALUE);
+static VALUE rb_magic_load(int, VALUE*, VALUE);
 static VALUE rb_magic_check(int, VALUE*, VALUE);
 static VALUE rb_magic_compile(int, VALUE*, VALUE);
 
