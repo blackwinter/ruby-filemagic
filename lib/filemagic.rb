@@ -47,22 +47,22 @@ class FileMagic
   # Extract "simple" MIME type.
   SIMPLE_RE = %r{([.\w\/-]+)}
 
-  @fm = Hash.new { |fm, flags|
-    fm.key?(key = flags.to_s) ? fm[key] : fm[key] = new(*flags)
-  }
+  @fm = {}
 
   class << self
 
     # Provide a "magic singleton".
     def fm(*flags)
-      @fm.delete(flags.to_s) if @fm[flags].closed?
-      @fm[flags]
+      if fm = @fm[flags = flags(flags)]
+        return fm unless fm.closed?
+      end
+
+      @fm[flags] = new(flags)
     end
 
     # Clear our instance cache.
     def clear!
-      @fm.each_value { |fm| fm.close }
-      @fm.clear
+      @fm.each_value(&:close).clear
     end
 
     # Just like #new, but takes an optional block, in which case #close

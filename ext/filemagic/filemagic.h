@@ -9,14 +9,6 @@
 #include <file/patchlevel.h>
 #endif
 
-/* Ruby 1.8.5 compatibility */
-#ifndef RSTRING_LEN
-#define RSTRING_LEN(s) (RSTRING(s)->len)
-#endif
-#ifndef RARRAY_LEN
-#define RARRAY_LEN(s) (RARRAY(s)->len)
-#endif
-
 #define GetMagicSet(obj, ms) {\
   if (RTEST(rb_magic_closed_p(obj))) {\
     rb_raise(rb_eRuntimeError, "closed stream");\
