@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Table of Contents - ruby-filemagic Application documentation (v0.5.2)</title>
+<title>Table of Contents - ruby-filemagic Application documentation (v0.6.0)</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -23,7 +23,7 @@
 
 <body id="top" class="table-of-contents">
 <main role="main">
-<h1 class="class">Table of Contents - ruby-filemagic Application documentation (v0.5.2)</h1>
+<h1 class="class">Table of Contents - ruby-filemagic Application documentation (v0.6.0)</h1>
 
 <h2 id="pages">Pages</h2>
 <ul>
@@ -32,6 +32,7 @@
 
     <ul>
       <li><a href="ChangeLog.html#label-Revision+history+for+ruby-filemagic">Revision history for ruby-filemagic</a>
+      <li><a href="ChangeLog.html#label-0.6.0+%5B2014-05-16%5D">0.6.0 [2014-05-16]</a>
       <li><a href="ChangeLog.html#label-0.5.2+%5B2014-04-24%5D">0.5.2 [2014-04-24]</a>
       <li><a href="ChangeLog.html#label-0.5.1+%5B2014-04-15%5D">0.5.1 [2014-04-15]</a>
       <li><a href="ChangeLog.html#label-0.5.0+%5B2013-12-19%5D">0.5.0 [2013-12-19]</a>
@@ -97,14 +98,19 @@
 <ul>
 
   <li class="method">
+    <a href="String.html#method-c-file_type">::file_type</a>
+    &mdash;
+    <span class="container">String</span>
+
+  <li class="method">
     <a href="File.html#method-c-file_type">::file_type</a>
     &mdash;
     <span class="container">File</span>
 
   <li class="method">
-    <a href="String.html#method-c-file_type">::file_type</a>
+    <a href="FileMagic.html#method-c-flags">::flags</a>
     &mdash;
-    <span class="container">String</span>
+    <span class="container">FileMagic</span>
 
   <li class="method">
     <a href="FileMagic/Ext.html#method-c-included">::included</a>
@@ -117,12 +123,12 @@
     <span class="container">FileMagic</span>
 
   <li class="method">
-    <a href="FileMagic.html#method-i-buffer">#buffer</a>
+    <a href="FileMagic.html#method-c-path">::path</a>
     &mdash;
     <span class="container">FileMagic</span>
 
   <li class="method">
-    <a href="FileMagic.html#method-i-check">#check</a>
+    <a href="FileMagic.html#method-i-auto_magic_version">#auto_magic_version</a>
     &mdash;
     <span class="container">FileMagic</span>
 
@@ -142,11 +148,6 @@
     <span class="container">FileMagic</span>
 
   <li class="method">
-    <a href="FileMagic.html#method-i-compile">#compile</a>
-    &mdash;
-    <span class="container">FileMagic</span>
-
-  <li class="method">
     <a href="FileMagic/Ext/InstanceMethods.html#method-i-content_type">#content_type</a>
     &mdash;
     <span class="container">FileMagic::Ext::InstanceMethods</span>
@@ -157,29 +158,24 @@
     <span class="container">FileMagic::Ext::ClassMethods</span>
 
   <li class="method">
-    <a href="FileMagic/Ext/InstanceMethods.html#method-i-file">#file</a>
-    &mdash;
-    <span class="container">FileMagic::Ext::InstanceMethods</span>
-
-  <li class="method">
-    <a href="FileMagic.html#method-i-file">#file</a>
-    &mdash;
-    <span class="container">FileMagic</span>
-
-  <li class="method">
     <a href="FileMagic/Ext/ClassMethods.html#method-i-file">#file</a>
     &mdash;
     <span class="container">FileMagic::Ext::ClassMethods</span>
 
   <li class="method">
-    <a href="FileMagic/Ext/ClassMethods.html#method-i-file_type">#file_type</a>
+    <a href="FileMagic/Ext/InstanceMethods.html#method-i-file">#file</a>
     &mdash;
-    <span class="container">FileMagic::Ext::ClassMethods</span>
+    <span class="container">FileMagic::Ext::InstanceMethods</span>
 
   <li class="method">
     <a href="FileMagic/Ext/InstanceMethods.html#method-i-file_type">#file_type</a>
     &mdash;
     <span class="container">FileMagic::Ext::InstanceMethods</span>
+
+  <li class="method">
+    <a href="FileMagic/Ext/ClassMethods.html#method-i-file_type">#file_type</a>
+    &mdash;
+    <span class="container">FileMagic::Ext::ClassMethods</span>
 
   <li class="method">
     <a href="FileMagic.html#method-i-flags">#flags</a>
@@ -207,9 +203,9 @@
     <span class="container">FileMagic</span>
 
   <li class="method">
-    <a href="FileMagic/Ext/ClassMethods.html#method-i-mime">#mime</a>
+    <a href="FileMagic.html#method-i-magic_version">#magic_version</a>
     &mdash;
-    <span class="container">FileMagic::Ext::ClassMethods</span>
+    <span class="container">FileMagic</span>
 
   <li class="method">
     <a href="FileMagic/Ext/InstanceMethods.html#method-i-mime">#mime</a>
@@ -217,19 +213,24 @@
     <span class="container">FileMagic::Ext::InstanceMethods</span>
 
   <li class="method">
+    <a href="FileMagic/Ext/ClassMethods.html#method-i-mime">#mime</a>
+    &mdash;
+    <span class="container">FileMagic::Ext::ClassMethods</span>
+
+  <li class="method">
     <a href="FileMagic.html#method-i-mime">#mime</a>
     &mdash;
     <span class="container">FileMagic</span>
 
   <li class="method">
-    <a href="FileMagic/Ext/ClassMethods.html#method-i-mime_type">#mime_type</a>
-    &mdash;
-    <span class="container">FileMagic::Ext::ClassMethods</span>
-
-  <li class="method">
     <a href="FileMagic/Ext/InstanceMethods.html#method-i-mime_type">#mime_type</a>
     &mdash;
     <span class="container">FileMagic::Ext::InstanceMethods</span>
+
+  <li class="method">
+    <a href="FileMagic/Ext/ClassMethods.html#method-i-mime_type">#mime_type</a>
+    &mdash;
+    <span class="container">FileMagic::Ext::ClassMethods</span>
 
   <li class="method">
     <a href="FileMagic.html#method-i-open">#open</a>
@@ -250,6 +251,11 @@
     <a href="FileMagic/Version.html#method-i-to_s">#to_s</a>
     &mdash;
     <span class="container">FileMagic::Version</span>
+
+  <li class="method">
+    <a href="FileMagic.html#method-i-user_magic_version">#user_magic_version</a>
+    &mdash;
+    <span class="container">FileMagic</span>
 </ul>
 </main>
 

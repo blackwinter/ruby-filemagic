@@ -1,8 +1,8 @@
-Thu, 24 Apr 2014 16:24:57 +0200
-README	Thu, 24 Apr 2014 16:16:43 +0200
-ChangeLog	Thu, 24 Apr 2014 16:17:13 +0200
-lib/filemagic.rb	Fri, 11 Apr 2014 09:58:07 +0200
+Fri, 16 May 2014 12:06:09 +0200
+README	Fri, 16 May 2014 12:03:46 +0200
+ChangeLog	Fri, 16 May 2014 12:03:58 +0200
+lib/filemagic.rb	Tue, 13 May 2014 15:16:10 +0200
 lib/filemagic/ext.rb	Tue, 09 Apr 2013 11:32:10 +0200
 lib/ruby-filemagic.rb	Tue, 15 Apr 2014 15:16:58 +0200
-lib/filemagic/version.rb	Thu, 24 Apr 2014 16:16:57 +0200
-ext/filemagic/filemagic.c	Thu, 24 Apr 2014 16:11:12 +0200
+lib/filemagic/version.rb	Fri, 16 May 2014 12:04:04 +0200
+ext/filemagic/filemagic.c	Tue, 13 May 2014 15:04:49 +0200
