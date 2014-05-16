@@ -3,8 +3,8 @@ class FileMagic
   module Version
 
     MAJOR = 0
-    MINOR = 5
-    TINY  = 2
+    MINOR = 6
+    TINY  = 0
 
     class << self
 

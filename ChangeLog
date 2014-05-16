@@ -2,6 +2,18 @@
 
 = Revision history for ruby-filemagic
 
+== 0.6.0 [2014-05-16]
+
+* Required Ruby version >= 1.9.3.
+* New method FileMagic#list (+magic_list+).
+* New method FileMagic#load (+magic_load+).
+* New method FileMagic.path (+magic_getpath+).
+* New method FileMagic.magic_version.
+* New method FileMagic.flags.
+* New flag +no_check_builtin+.
+* Tests print libmagic version and path.
+* Internal refactoring.
+
 == 0.5.2 [2014-04-24]
 
 * Use MAGIC_VERSION if available.

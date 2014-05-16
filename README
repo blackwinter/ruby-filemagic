@@ -2,7 +2,7 @@
 
 == VERSION
 
-This documentation refers to filemagic version 0.5.2
+This documentation refers to filemagic version 0.6.0
 
 
 == DESCRIPTION
@@ -43,9 +43,10 @@ Travis
 == LINKS
 
 Homepage::      http://www.darwinsys.com/file/
-Documentation:: https://blackwinter.github.io/ruby-filemagic/
+Documentation:: https://blackwinter.github.com/ruby-filemagic
 Source code::   https://github.com/blackwinter/ruby-filemagic
 RubyGem::       https://rubygems.org/gems/ruby-filemagic
+Travis CI::     https://travis-ci.org/blackwinter/ruby-filemagic
 
 
 == AUTHORS
