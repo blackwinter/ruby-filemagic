@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>module FileMagic::Ext::ClassMethods - ruby-filemagic Application documentation (v0.6.0)</title>
+<title>module FileMagic::Ext::ClassMethods - ruby-filemagic Application documentation (v0.6.1)</title>
 
 <link href="../../fonts.css" rel="stylesheet">
 <link href="../../rdoc.css" rel="stylesheet">
@@ -129,10 +129,9 @@
 
           
           <div class="method-source-code" id="content_type-source">
-            <pre><span class="ruby-comment"># File lib/filemagic/ext.rb, line 29</span>
+            <pre><span class="ruby-comment"># File lib/filemagic/ext.rb, line 28</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">content_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
-  <span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-value">:simplified</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span> }
-  <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
+  <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span> <span class="ruby-operator">&lt;&lt;</span> { <span class="ruby-identifier">simplified</span><span class="ruby-operator">:</span> <span class="ruby-keyword">true</span> })
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -259,8 +258,7 @@
           <div class="method-source-code" id="mime_type-source">
             <pre><span class="ruby-comment"># File lib/filemagic/ext.rb, line 22</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">mime_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
-  <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">unshift</span> <span class="ruby-value">:mime</span>
-  <span class="ruby-identifier">file_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
+  <span class="ruby-identifier">file_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>.<span class="ruby-identifier">unshift</span>(<span class="ruby-value">:mime</span>))
 <span class="ruby-keyword">end</span></pre>
           </div>
           

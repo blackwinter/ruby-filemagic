@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class File - ruby-filemagic Application documentation (v0.6.0)</title>
+<title>class File - ruby-filemagic Application documentation (v0.6.1)</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -139,7 +139,7 @@
 
           
           <div class="method-source-code" id="file_type-source">
-            <pre><span class="ruby-comment"># File lib/filemagic/ext.rb, line 62</span>
+            <pre><span class="ruby-comment"># File lib/filemagic/ext.rb, line 60</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">file_type</span>(<span class="ruby-identifier">file</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
   <span class="ruby-constant">FileMagic</span>.<span class="ruby-identifier">fm</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>).<span class="ruby-identifier">file</span>(<span class="ruby-identifier">file</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:path</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">file</span>.<span class="ruby-identifier">path</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">file</span>)
 <span class="ruby-keyword">rescue</span> <span class="ruby-constant">FileMagic</span><span class="ruby-operator">::</span><span class="ruby-constant">FileMagicError</span>
