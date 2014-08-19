@@ -2,6 +2,11 @@
 
 = Revision history for ruby-filemagic
 
+== 0.6.1 [2014-08-19]
+
+* Account for options passed to FileMagic.fm (issue #7 reported by Adam
+  Wróbel).
+
 == 0.6.0 [2014-05-16]
 
 * Required Ruby version >= 1.9.3.
