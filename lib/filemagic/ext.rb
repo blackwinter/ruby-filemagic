@@ -20,15 +20,13 @@ module FileMagic::Ext
     end
 
     def mime_type(file, *flags)
-      flags.unshift :mime
-      file_type(file, *flags)
+      file_type(file, *flags.unshift(:mime))
     end
 
     alias_method :mime, :mime_type
 
     def content_type(file, *flags)
-      flags << { :simplified => true }
-      mime_type(file, *flags)
+      mime_type(file, *flags << { simplified: true })
     end
 
   end

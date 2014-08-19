@@ -160,7 +160,7 @@ magic file from #{FileMagic.path}
   def test_abbrev_mime_type
     fm = FileMagic.mime
 
-    assert !fm.simplified?
+    refute fm.simplified?
     assert_equal('text/plain; charset=us-ascii', fm.file(path_to('perl')))
 
     fm.simplified = true
@@ -171,6 +171,29 @@ magic file from #{FileMagic.path}
       5.11 => 'application/msword',
       5.14 => 'application/vnd.ms-office'
     ), fm.file(path_to('excel-example.xls')))
+  end
+
+  def test_singleton
+    fm1 = FileMagic.fm
+    assert_equal(fm1, FileMagic.fm)
+
+    refute fm1.simplified?
+    assert_equal('ASCII text', fm1.file(path_to('perl')))
+
+    fm2 = FileMagic.fm(:mime)
+    assert_equal(fm2, FileMagic.fm(:mime))
+    refute_equal(fm2, fm1)
+
+    refute fm2.simplified?
+    assert_equal('text/plain; charset=us-ascii', fm2.file(path_to('perl')))
+
+    fm3 = FileMagic.fm(:mime, simplified: true)
+    assert_equal(fm3, FileMagic.fm(:mime, simplified: true))
+    refute_equal(fm3, fm2)
+    refute_equal(fm3, fm1)
+
+    assert fm3.simplified?
+    assert_equal('text/plain', fm3.file(path_to('perl')))
   end
 
   # utility methods:

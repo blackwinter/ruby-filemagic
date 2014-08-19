@@ -53,11 +53,13 @@ class FileMagic
 
     # Provide a "magic singleton".
     def fm(*flags)
-      if fm = @fm[flags = flags(flags)]
+      options = flags.last.is_a?(Hash) ? flags.pop : {}
+
+      if fm = @fm[key = [flags = flags(flags), options]]
         return fm unless fm.closed?
       end
 
-      @fm[flags] = new(flags)
+      @fm[key] = new(flags, options)
     end
 
     # Clear our instance cache.
