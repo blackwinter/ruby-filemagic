@@ -24,7 +24,7 @@ Install the gem:
 July 28, 2003 Travis Whitton <tinymountain@gmail.com>
 
 This is one of my first ruby bindings, so suggestions are welcome. See
-filemagic.rd and test.rb for usage.
+filemagic.rb and test.rb for usage.
 
 to install, run these commands:
 
