@@ -12,7 +12,6 @@ begin
       email:        'jens.wille@gmail.com',
       license:      %q{Ruby},
       homepage:     :blackwinter,
-      extra_files:  FileList['info/*'].to_a,
       dependencies: %w[],
       extension:    {
         name:          'ruby_filemagic',

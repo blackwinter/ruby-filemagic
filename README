@@ -7,37 +7,62 @@ This documentation refers to filemagic version 0.6.1
 
 == DESCRIPTION
 
-=== Revised version
+FileMagic extension module. See also libmagic(3), file(1) and magic(4).
 
-September 12, 2008 Jens Wille <jens.wille@gmail.com>
+=== Constants
 
-Similar to Ricardo[http://github.com/ricardochimal/ruby-filemagic]
-I wanted this project to make some progress. My needs went a bit
-farther than his, though ;-) Enjoy anyway!
+<tt>MAGIC_NONE</tt>::     No flags
+<tt>MAGIC_DEBUG</tt>::    Turn on debugging
+<tt>MAGIC_SYMLINK</tt>::  Follow symlinks
+<tt>MAGIC_COMPRESS</tt>:: Check inside compressed files
+<tt>MAGIC_DEVICES</tt>::  Look at the contents of devices
+<tt>MAGIC_MIME</tt>::     Return a mime string
+<tt>MAGIC_CONTINUE</tt>:: Return all matches, not just the first
+<tt>MAGIC_CHECK</tt>::    Print warnings to stderr
+
+=== Methods
+
+<tt>file(filename)</tt>::    Returns a textual description of the contents
+                             of the filename argument
+<tt>buffer(string)</tt>::    Returns a textual description of the contents
+                             of the string argument
+<tt>check(filename)</tt>::   Checks the validity of entries in the database
+                             file passed in as filename
+<tt>compile(filename)</tt>:: Compiles the database file passed in as filename
+<tt>close()</tt>::           Closes the magic database and frees any memory
+                             allocated
+
+=== Synospis
+
+  require 'filemagic'
+
+  p FileMagic::VERSION
+  p FileMagic::MAGIC_VERSION
+
+  p FileMagic.new.flags
+
+  FileMagic.open(:mime) { |fm|
+    p fm.flags
+    p fm.file(__FILE__)
+    p fm.file(__FILE__, true)
+
+    fm.flags = [:raw, :continue]
+    p fm.flags
+  }
+
+  fm = FileMagic.new
+  p fm.flags
+
+  mime = FileMagic.mime
+  p mime.flags
+
+=== Installation
 
 Install the gem:
 
   sudo gem install ruby-filemagic
 
-=== Original package
-
-July 28, 2003 Travis Whitton <tinymountain@gmail.com>
-
-This is one of my first ruby bindings, so suggestions are welcome. See
-filemagic.rd and test.rb for usage.
-
-to install, run these commands:
-
-  ruby extconf.rb
-  make
-  su
-  make install
-
-the file(1) library and headers are required.
-I have file 0.4.3.
-
-Enjoy!
-Travis
+The file(1) library and headers are required.
 
 
 == LINKS
