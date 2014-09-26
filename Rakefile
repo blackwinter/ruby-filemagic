@@ -23,5 +23,5 @@ begin
     }
   }}
 rescue LoadError => err
-  warn "Please install the `hen' gem first. (#{err})"
+  warn "Please install the `hen' gem. (#{err})"
 end
