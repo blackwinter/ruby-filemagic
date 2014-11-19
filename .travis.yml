@@ -20,7 +20,8 @@ script:
   rake test
 
 install:
-  gem install --prerelease --development ruby-filemagic
+  - gem install nuggets power_assert
+  - gem install --prerelease --development ruby-filemagic
 
 before_install:
   - sudo apt-get update -qq
