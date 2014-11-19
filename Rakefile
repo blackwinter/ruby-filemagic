@@ -1,4 +1,4 @@
-require File.expand_path(%q{../lib/filemagic/version}, __FILE__)
+require_relative 'lib/filemagic/version'
 
 begin
   require 'hen'
