@@ -1,4 +1,10 @@
-require 'filemagic/ruby_filemagic'
+begin
+  require "filemagic/#{RUBY_VERSION[/\d+.\d+/]}/ruby_filemagic"
+rescue LoadError => err
+  raise if err.respond_to?(:path) && !err.path
+  require 'filemagic/ruby_filemagic'
+end
+
 require 'filemagic/version'
 
 class FileMagic
