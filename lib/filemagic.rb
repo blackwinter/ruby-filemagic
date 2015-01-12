@@ -9,6 +9,10 @@ require 'filemagic/version'
 
 class FileMagic
 
+  DEFAULT_MAGIC = __FILE__.sub(/\.rb\z/, '/magic.mgc')
+
+  ENV['MAGIC'] ||= DEFAULT_MAGIC unless path
+
   # Map flag names to their values (:name => Integer).
   FLAGS_BY_SYM = [
     :none,               # No flags

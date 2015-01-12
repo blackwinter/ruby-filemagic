@@ -8,3 +8,4 @@ ext/filemagic.o
 ext/filemagic.so
 ext/mkmf.log
 lib/filemagic.so
+lib/**/*.mgc
