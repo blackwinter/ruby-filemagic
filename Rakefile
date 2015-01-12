@@ -21,7 +21,9 @@ begin
       homepage:    :blackwinter,
       local_files: [mgc],
       extension:   {
-        cross_compile: false
+        with_cross_gnurx: lambda { |dir| [dir] },
+        with_cross_magic: lambda { |dir| [src =
+          File.join(dir, 'src'), File.join(src, '.libs')] }
       },
 
       required_ruby_version: '>= 1.9.3'
