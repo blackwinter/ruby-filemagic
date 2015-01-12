@@ -60,8 +60,16 @@ magic file from #{FileMagic.path}
   end
 
   def test_check
+    return if Gem.win_platform?
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = silence_stderr { fm.check(path_to('perl')) }
+    fm.close
+    assert(res)
+  end
+
+  def test_check_compiled
+    fm = FileMagic.new(FileMagic::MAGIC_NONE)
+    res = silence_stderr { fm.check(path_to('perl.mgc')) }
     fm.close
     assert(res)
   end
