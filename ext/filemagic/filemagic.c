@@ -3,7 +3,8 @@
 /* Returns the magic path */
 static VALUE
 rb_magic_getpath(VALUE klass) {
-  return rb_str_new2(magic_getpath(NULL, 0));
+  const char *path = magic_getpath(NULL, 0);
+  return path != NULL ? rb_str_new2(path) : Qnil;
 }
 
 /* Converts flags to integer */
