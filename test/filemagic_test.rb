@@ -45,7 +45,9 @@ magic file from #{FileMagic.path}
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
 
     res = fm.file(path_to('pyfile-compressed.gz'))
-    assert_match(/^#{python_script} \(gzip compressed data, was "pyfile-compressed"/, res)
+    gzip_compressed = 'gzip compressed data, was "pyfile-compressed"'
+    assert_match(Gem.win_platform? ? /^#{gzip_compressed}/ :
+                 /^#{python_script} \(#{gzip_compressed}/, res)
 
     fm.close
   end
