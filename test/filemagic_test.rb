@@ -68,6 +68,7 @@ magic file from #{FileMagic.path}
   end
 
   def test_check_compiled
+    return if MAGIC_VERSION <= 5.09
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = silence_stderr { fm.check(path_to('perl.mgc')) }
     fm.close
