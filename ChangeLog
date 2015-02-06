@@ -2,10 +2,14 @@
 
 = Revision history for ruby-filemagic
 
+== 0.6.2 [2015-02-06]
+
+* Improved Windows support (issue #10 by Matt Hoyle).
+* Fixed FileMagic.path to account for missing magic file.
+
 == 0.6.1 [2014-08-19]
 
-* Account for options passed to FileMagic.fm (issue #7 reported by Adam
-  Wróbel).
+* Account for options passed to FileMagic.fm (issue #7 by Adam Wróbel).
 
 == 0.6.0 [2014-05-16]
 
