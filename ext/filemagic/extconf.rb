@@ -1,7 +1,7 @@
 require 'mkmf'
 
 $CFLAGS << ' -Wall' if ENV['WALL']
-$LDFLAGS << ' -static-libgcc'
+$LDFLAGS << ' -static-libgcc' if RUBY_PLATFORM =~ /cygwin|mingw|mswin/
 
 dir_config('magic')
 dir_config('gnurx')

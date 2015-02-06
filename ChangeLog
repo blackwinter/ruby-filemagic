@@ -2,6 +2,10 @@
 
 = Revision history for ruby-filemagic
 
+== 0.6.3 [2015-02-06]
+
+* Fixed build error with Clang (issue #13 by Stan Carver II).
+
 == 0.6.2 [2015-02-06]
 
 * Improved Windows support (issue #10 by Matt Hoyle).
