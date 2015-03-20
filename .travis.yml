@@ -24,6 +24,9 @@ install:
   - gem install nuggets power_assert
   - gem install --prerelease --development ruby-filemagic
 
-before_install:
-  - sudo apt-get update -qq
-  - sudo apt-get install -y libmagic-dev
+addons:
+  apt_packages:
+    libmagic-dev
+
+sudo:
+  false
