@@ -32,7 +32,7 @@ FileMagic extension module. See also libmagic(3), file(1) and magic(4).
 <tt>close()</tt>::           Closes the magic database and frees any memory
                              allocated
 
-=== Synospis
+=== Synopsis
 
   require 'filemagic'
 
@@ -62,7 +62,12 @@ Install the gem:
 
   sudo gem install ruby-filemagic
 
-The file(1) library and headers are required.
+The file(1) library and headers are required:
+
+Debian/Ubuntu:: +libmagic-dev+
+Fedora/SuSE::   +file-devel+
+Gentoo::        +sys-libs/libmagic+
+OS X::          <tt>brew install libmagic</tt>
 
 
 == LINKS
