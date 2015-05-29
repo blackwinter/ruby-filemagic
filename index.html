@@ -145,12 +145,15 @@ libmagic(3), file(1) and magic(4).</p>
 </dd><dt><code>compile(filename)</code>
 <dd>
 <p>Compiles the database file passed in as filename</p>
+</dd><dt><code>load(filename)</code>
+<dd>
+<p>Loads the database file passed in as filename</p>
 </dd><dt><code>close()</code>
 <dd>
 <p>Closes the magic database and frees any memory allocated</p>
 </dd></dl>
 
-<h3 id="label-Synospis">Synospis<span><a href="#label-Synospis">&para;</a> <a href="#top">&uarr;</a></span></h3>
+<h3 id="label-Synopsis">Synopsis<span><a href="#label-Synopsis">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <pre class="ruby"><span class="ruby-identifier">require</span> <span class="ruby-string">&#39;filemagic&#39;</span>
 
@@ -175,6 +178,11 @@ libmagic(3), file(1) and magic(4).</p>
 <span class="ruby-identifier">p</span> <span class="ruby-identifier">mime</span>.<span class="ruby-identifier">flags</span>
 </pre>
 
+<h3 id="label-Environment">Environment<span><a href="#label-Environment">&para;</a> <a href="#top">&uarr;</a></span></h3>
+
+<p>The environment variable <code>MAGIC</code> can be used to set the default
+magic file name.</p>
+
 <h3 id="label-Installation">Installation<span><a href="#label-Installation">&para;</a> <a href="#top">&uarr;</a></span></h3>
 
 <p>Install the gem:</p>
@@ -182,7 +190,20 @@ libmagic(3), file(1) and magic(4).</p>
 <pre class="ruby"><span class="ruby-identifier">sudo</span> <span class="ruby-identifier">gem</span> <span class="ruby-identifier">install</span> <span class="ruby-identifier">ruby</span><span class="ruby-operator">-</span><span class="ruby-identifier">filemagic</span>
 </pre>
 
-<p>The file(1) library and headers are required.</p>
+<p>The file(1) library and headers are required:</p>
+<dl class="rdoc-list note-list"><dt>Debian/Ubuntu
+<dd>
+<p><code>libmagic-dev</code></p>
+</dd><dt>Fedora/SuSE
+<dd>
+<p><code>file-devel</code></p>
+</dd><dt>Gentoo
+<dd>
+<p><code>sys-libs/libmagic</code></p>
+</dd><dt>OS X
+<dd>
+<p><code>brew install libmagic</code></p>
+</dd></dl>
 
 <h2 id="label-LINKS">LINKS<span><a href="#label-LINKS">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <dl class="rdoc-list note-list"><dt>Homepage
