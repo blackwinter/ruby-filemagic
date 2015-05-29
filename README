@@ -29,6 +29,7 @@ FileMagic extension module. See also libmagic(3), file(1) and magic(4).
 <tt>check(filename)</tt>::   Checks the validity of entries in the database
                              file passed in as filename
 <tt>compile(filename)</tt>:: Compiles the database file passed in as filename
+<tt>load(filename)</tt>::    Loads the database file passed in as filename
 <tt>close()</tt>::           Closes the magic database and frees any memory
                              allocated
 
@@ -55,6 +56,10 @@ FileMagic extension module. See also libmagic(3), file(1) and magic(4).
 
   mime = FileMagic.mime
   p mime.flags
+
+=== Environment
+
+The environment variable +MAGIC+ can be used to set the default magic file name.
 
 === Installation
 
