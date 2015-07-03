@@ -1,9 +1,21 @@
 #include "filemagic.h"
 
+const char *magic_getpath(const char *, int) __attribute__((weak));
+
 /* Returns the magic path */
 static VALUE
 rb_magic_getpath(VALUE klass) {
-  const char *path = magic_getpath(NULL, 0);
+  const char *path = NULL;
+  VALUE cStderr, argv[1];
+
+  if (magic_getpath) {
+    path = magic_getpath(NULL, 0);
+  } else {
+    cStderr = rb_gv_get("stderr");
+    argv[0] = rb_str_new_cstr("WARN: The function 'magic_getpath' isn't " \
+        "defined in 'libmagic'. The return valus is defaulting to nil");
+    rb_io_puts(sizeof(argv)/sizeof(VALUE), argv, cStderr);
+  }
   return path != NULL ? rb_str_new2(path) : Qnil;
 }
 
