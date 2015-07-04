@@ -11,7 +11,7 @@ class FileMagic
 
   DEFAULT_MAGIC = __FILE__.sub(/\.rb\z/, '/magic.mgc')
 
-  ENV['MAGIC'] ||= DEFAULT_MAGIC unless path
+  ENV['MAGIC'] ||= DEFAULT_MAGIC unless path rescue NoMethodError
 
   # Map flag names to their values (:name => Integer).
   FLAGS_BY_SYM = [
