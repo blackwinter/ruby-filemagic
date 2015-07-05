@@ -1,9 +1,18 @@
 #include "filemagic.h"
 
+const char *magic_getpath(const char *, int) __attribute__((weak));
+
 /* Returns the magic path */
 static VALUE
 rb_magic_getpath(VALUE klass) {
-  const char *path = magic_getpath(NULL, 0);
+  const char *path = NULL;
+
+  if (magic_getpath) {
+    path = magic_getpath(NULL, 0);
+  } else {
+    rb_raise(rb_eNoMethodError,
+        "The function 'magic_getpath' isn't defined");
+  }
   return path != NULL ? rb_str_new2(path) : Qnil;
 }
 
@@ -266,6 +275,15 @@ Init_ruby_filemagic() {
 #endif
 #ifdef MAGIC_APPLE
   rb_define_const(cFileMagic, "MAGIC_APPLE",             INT2FIX(MAGIC_APPLE));
+#endif
+#ifdef MAGIC_EXTENSION
+  rb_define_const(cFileMagic, "MAGIC_EXTENSION",         INT2FIX(MAGIC_EXTENSION));
+#endif
+#ifdef MAGIC_COMPRESS_TRANSP
+  rb_define_const(cFileMagic, "MAGIC_COMPRESS_TRANSP",   INT2FIX(MAGIC_COMPRESS_TRANSP));
+#endif
+#ifdef MAGIC_NODESC
+  rb_define_const(cFileMagic, "MAGIC_NODESC",            INT2FIX(MAGIC_NODESC));
 #endif
 #ifdef MAGIC_NO_CHECK_COMPRESS
   rb_define_const(cFileMagic, "MAGIC_NO_CHECK_COMPRESS", INT2FIX(MAGIC_NO_CHECK_COMPRESS));
