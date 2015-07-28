@@ -156,11 +156,14 @@ rb_magic_closed_p(VALUE self) {
   return rb_attr_get(self, rb_intern("closed"));
 }
 
-/* Return a string describing file */
+/* Return a string describing the named file */
 RB_MAGIC_TYPE(file, FILE)
 
 /* Return a string describing the string buffer */
 RB_MAGIC_TYPE(buffer, BUFFER)
+
+/* Return a string describing the file descriptor */
+RB_MAGIC_TYPE(descriptor, DESCRIPTOR)
 
 /* Get the flags as array of symbols */
 static VALUE
@@ -220,17 +223,18 @@ Init_ruby_filemagic() {
   rb_define_singleton_method(cFileMagic, "flags",           rb_magic_flags,    1);
   rb_define_singleton_method(cFileMagic, "new",             rb_magic_new,     -1);
 
-  rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);
-  rb_define_method(cFileMagic, "close",      rb_magic_close,     0);
-  rb_define_method(cFileMagic, "closed?",    rb_magic_closed_p,  0);
-  rb_define_method(cFileMagic, "file",       rb_magic_file,     -1);
-  rb_define_method(cFileMagic, "buffer",     rb_magic_buffer,   -1);
-  rb_define_method(cFileMagic, "flags",      rb_magic_getflags,  0);
-  rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,  1);
-  rb_define_method(cFileMagic, "list",       rb_magic_list,     -1);
-  rb_define_method(cFileMagic, "load",       rb_magic_load,     -1);
-  rb_define_method(cFileMagic, "check",      rb_magic_check,    -1);
-  rb_define_method(cFileMagic, "compile",    rb_magic_compile,  -1);
+  rb_define_method(cFileMagic, "initialize", rb_magic_init,       -1);
+  rb_define_method(cFileMagic, "close",      rb_magic_close,       0);
+  rb_define_method(cFileMagic, "closed?",    rb_magic_closed_p,    0);
+  rb_define_method(cFileMagic, "file",       rb_magic_file,       -1);
+  rb_define_method(cFileMagic, "buffer",     rb_magic_buffer,     -1);
+  rb_define_method(cFileMagic, "descriptor", rb_magic_descriptor, -1);
+  rb_define_method(cFileMagic, "flags",      rb_magic_getflags,    0);
+  rb_define_method(cFileMagic, "flags=",     rb_magic_setflags,    1);
+  rb_define_method(cFileMagic, "list",       rb_magic_list,       -1);
+  rb_define_method(cFileMagic, "load",       rb_magic_load,       -1);
+  rb_define_method(cFileMagic, "check",      rb_magic_check,      -1);
+  rb_define_method(cFileMagic, "compile",    rb_magic_compile,    -1);
 
   rb_alias(cFileMagic, rb_intern("valid?"), rb_intern("check"));
 

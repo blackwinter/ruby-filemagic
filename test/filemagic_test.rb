@@ -59,6 +59,55 @@ magic file from #{FileMagic.path}
     assert_equal('POSIX shell script, ASCII text executable', res)
   end
 
+  def test_descriptor
+    fm = FileMagic.new(FileMagic::MAGIC_NONE)
+
+    python_script = match_version(
+      0    => 'a python script, ASCII text executable',
+      5.11 => 'Python script, ASCII text executable'
+    )
+
+    File.open(path_to('pyfile')) { |f|
+      res = fm.descriptor(f.fileno)
+      assert_equal(python_script, res)
+    }
+
+    if File.symlink?(path_to('pylink'))
+      File.open(path_to('pylink')) { |f|
+        res = fm.descriptor(f.fileno)
+        assert_equal(python_script, res.strip)
+      }
+    end
+
+    fm.close
+    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
+
+    File.open(path_to('pylink')) { |f|
+      res = fm.descriptor(f.fileno)
+      assert_equal(python_script, res)
+    }
+
+    fm.close
+    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
+
+    File.open(path_to('pylink')) { |f|
+      res = fm.descriptor(f.fileno)
+      assert_equal('text/plain; charset=us-ascii', res)
+    }
+
+    fm.close
+    fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
+
+    File.open(path_to('pyfile-compressed.gz')) { |f|
+      res = fm.descriptor(f.fileno)
+      gzip_compressed = 'gzip compressed data, was "pyfile-compressed"'
+      assert_match(Gem.win_platform? ? /^#{gzip_compressed}/ :
+                   /^#{python_script} \(#{gzip_compressed}/, res)
+    }
+
+    fm.close
+  end
+
   def test_check
     return if Gem.win_platform?
     fm = FileMagic.new(FileMagic::MAGIC_NONE)

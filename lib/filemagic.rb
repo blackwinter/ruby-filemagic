@@ -146,6 +146,10 @@ class FileMagic
     io.pos = pos if pos
   end
 
+  def fd(fd)
+    descriptor(fd.respond_to?(:fileno) ? fd.fileno : fd)
+  end
+
   def inspect
     super.insert(-2, closed? ? ' (closed)' : '')
   end

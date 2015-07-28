@@ -18,19 +18,18 @@
   }\
 }
 
-#define RB_MAGIC_TYPE_FILE   magic_file(ms, str)
-#define RB_MAGIC_TYPE_BUFFER magic_buffer(ms, str, RSTRING_LEN(arg))
+#define RB_MAGIC_TYPE_FILE       magic_file(ms, StringValuePtr(arg))
+#define RB_MAGIC_TYPE_BUFFER     magic_buffer(ms, StringValuePtr(arg), RSTRING_LEN(arg))
+#define RB_MAGIC_TYPE_DESCRIPTOR magic_descriptor(ms, NUM2INT(arg))
 
 #define RB_MAGIC_TYPE(what, WHAT) \
 static VALUE \
 rb_magic_##what(int argc, VALUE *argv, VALUE self) {\
   VALUE arg, simple, res;\
-  const char *str, *type;\
+  const char *type;\
   magic_t ms;\
 \
   rb_scan_args(argc, argv, "11", &arg, &simple);\
-\
-  str = StringValuePtr(arg);\
   GetMagicSet(self, ms);\
 \
   if ((type = RB_MAGIC_TYPE_##WHAT) == NULL) {\
@@ -85,6 +84,7 @@ static VALUE rb_magic_closed_p(VALUE);
 
 static VALUE rb_magic_file(int, VALUE*, VALUE);
 static VALUE rb_magic_buffer(int, VALUE*, VALUE);
+static VALUE rb_magic_descriptor(int, VALUE*, VALUE);
 
 static VALUE rb_magic_getflags(VALUE);
 static VALUE rb_magic_setflags(VALUE, VALUE);
