@@ -9,6 +9,11 @@ require 'filemagic/version'
 
 class FileMagic
 
+  unless ENV['MAGIC_SILENCE_VERSION_CHECK'] || MAGIC_VERSION == library_version
+    warn "#{self} v#{VERSION}: compiled magic version [#{MAGIC_VERSION}] " <<
+         "does not match with shared library magic version [#{library_version}]"
+  end
+
   DEFAULT_MAGIC = __FILE__.sub(/\.rb\z/, '/magic.mgc')
 
   ENV['MAGIC'] ||= DEFAULT_MAGIC unless path

@@ -72,6 +72,7 @@ rb_magic_##what(int argc, VALUE *argv, VALUE self) {\
 
 static VALUE cFileMagic, rb_FileMagicError;
 
+static VALUE rb_magic_version(VALUE);
 static VALUE rb_magic_getpath(VALUE);
 static VALUE rb_magic_flags(VALUE, VALUE);
 

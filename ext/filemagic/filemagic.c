@@ -1,5 +1,15 @@
 #include "filemagic.h"
 
+/* Returns the magic version */
+static VALUE
+rb_magic_version(VALUE klass) {
+  char version[8] = "0";
+#ifdef HAVE_MAGIC_VERSION
+  RB_MAGIC_SET_VERSION(magic_version() / 100, magic_version() % 100)
+#endif
+  return rb_str_new2(version);
+}
+
 /* Returns the magic path */
 static VALUE
 rb_magic_getpath(VALUE klass) {
@@ -205,9 +215,10 @@ Init_ruby_filemagic() {
 
   rb_define_const(cFileMagic, "MAGIC_VERSION", rb_str_new2(version));
 
-  rb_define_singleton_method(cFileMagic, "path",  rb_magic_getpath,  0);
-  rb_define_singleton_method(cFileMagic, "flags", rb_magic_flags,    1);
-  rb_define_singleton_method(cFileMagic, "new",   rb_magic_new,     -1);
+  rb_define_singleton_method(cFileMagic, "library_version", rb_magic_version,  0);
+  rb_define_singleton_method(cFileMagic, "path",            rb_magic_getpath,  0);
+  rb_define_singleton_method(cFileMagic, "flags",           rb_magic_flags,    1);
+  rb_define_singleton_method(cFileMagic, "new",             rb_magic_new,     -1);
 
   rb_define_method(cFileMagic, "initialize", rb_magic_init,     -1);
   rb_define_method(cFileMagic, "close",      rb_magic_close,     0);
