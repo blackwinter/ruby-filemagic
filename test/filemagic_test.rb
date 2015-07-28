@@ -67,14 +67,14 @@ magic file from #{FileMagic.path}
       5.11 => 'Python script, ASCII text executable'
     )
 
-    File.open(path_to('pyfile')) { |f|
-      res = fm.descriptor(f.fileno)
+    fd_for('pyfile') { |fd|
+      res = fm.descriptor(fd)
       assert_equal(python_script, res)
     }
 
     if File.symlink?(path_to('pylink'))
-      File.open(path_to('pylink')) { |f|
-        res = fm.descriptor(f.fileno)
+      fd_for('pylink') { |fd|
+        res = fm.descriptor(fd)
         assert_equal(python_script, res.strip)
       }
     end
@@ -82,24 +82,24 @@ magic file from #{FileMagic.path}
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
 
-    File.open(path_to('pylink')) { |f|
-      res = fm.descriptor(f.fileno)
+    fd_for('pylink') { |fd|
+      res = fm.descriptor(fd)
       assert_equal(python_script, res)
     }
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
 
-    File.open(path_to('pylink')) { |f|
-      res = fm.descriptor(f.fileno)
+    fd_for('pylink') { |fd|
+      res = fm.descriptor(fd)
       assert_equal('text/plain; charset=us-ascii', res)
     }
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
 
-    File.open(path_to('pyfile-compressed.gz')) { |f|
-      res = fm.descriptor(f.fileno)
+    fd_for('pyfile-compressed.gz') { |fd|
+      res = fm.descriptor(fd)
       gzip_compressed = 'gzip compressed data, was "pyfile-compressed"'
       assert_match(Gem.win_platform? ? /^#{gzip_compressed}/ :
                    /^#{python_script} \(#{gzip_compressed}/, res)
@@ -260,6 +260,16 @@ magic file from #{FileMagic.path}
 
   def path_to(file, dir = File.dirname(__FILE__))
     File.join(dir, file)
+  end
+
+  def fd_for(file)
+    File.open(path_to(file)) { |f|
+      begin
+        yield f.fileno
+      rescue Errno::EBADF => err
+        warn err.to_s
+      end
+    }
   end
 
   def silence_stderr
