@@ -2,7 +2,7 @@
 
 = Revision history for ruby-filemagic
 
-== 0.6.4 [unreleased]
+== 0.7.0 [2015-07-28]
 
 * Changed FileMagic#io to optionally rewind input afterwards.
 * New method FileMagic.library_version (+magic_version+).
