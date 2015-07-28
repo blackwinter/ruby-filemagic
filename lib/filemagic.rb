@@ -131,8 +131,11 @@ class FileMagic
     @simplified
   end
 
-  def io(io, length = 8)
+  def io(io, length = 8, rewind = false)
+    pos = io.pos if rewind
     buffer(io.read(length))
+  ensure
+    io.pos = pos if pos
   end
 
   def inspect
