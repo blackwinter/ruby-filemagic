@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 
-<title>class FileMagic - ruby-filemagic Application documentation (v0.6.3)</title>
+<title>class FileMagic - ruby-filemagic Application documentation (v0.7.0)</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
@@ -78,6 +78,8 @@
     
     <li ><a href="#method-c-fm">::fm</a>
     
+    <li ><a href="#method-c-library_version">::library_version</a>
+    
     <li ><a href="#method-c-magic_version">::magic_version</a>
     
     <li ><a href="#method-c-mime">::mime</a>
@@ -93,6 +95,8 @@
     <li ><a href="#method-i-close">#close</a>
     
     <li ><a href="#method-i-closed-3F">#closed?</a>
+    
+    <li ><a href="#method-i-fd">#fd</a>
     
     <li ><a href="#method-i-flags">#flags</a>
     
@@ -164,6 +168,11 @@
         <dd>
         
       
+        <dt id="MAGIC_COMPRESS_TRANSP">MAGIC_COMPRESS_TRANSP
+        
+        <dd>
+        
+      
         <dt id="MAGIC_CONTINUE">MAGIC_CONTINUE
         
         <dd>
@@ -184,6 +193,11 @@
         <dd>
         
       
+        <dt id="MAGIC_EXTENSION">MAGIC_EXTENSION
+        
+        <dd>
+        
+      
         <dt id="MAGIC_MIME">MAGIC_MIME
         
         <dd>
@@ -195,6 +209,11 @@
         
       
         <dt id="MAGIC_MIME_TYPE">MAGIC_MIME_TYPE
+        
+        <dd>
+        
+      
+        <dt id="MAGIC_NODESC">MAGIC_NODESC
         
         <dd>
         
@@ -353,7 +372,7 @@
 
           
           <div class="method-source-code" id="clear-21-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 76</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">clear!</span>
   <span class="ruby-ivar">@fm</span>.<span class="ruby-identifier">each_value</span>(<span class="ruby-operator">&amp;</span><span class="ruby-value">:close</span>).<span class="ruby-identifier">clear</span>
 <span class="ruby-keyword">end</span></pre>
@@ -455,7 +474,7 @@ rb_magic_flags(VALUE klass, VALUE flags) {
 
           
           <div class="method-source-code" id="fm-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 65</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 73</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">fm</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
   <span class="ruby-identifier">options</span> = <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">is_a?</span>(<span class="ruby-constant">Hash</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">flags</span>.<span class="ruby-identifier">pop</span> <span class="ruby-operator">:</span> {}
 
@@ -465,6 +484,43 @@ rb_magic_flags(VALUE klass, VALUE flags) {
 
   <span class="ruby-ivar">@fm</span>[<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">new</span>(<span class="ruby-identifier">flags</span>, <span class="ruby-identifier">options</span>)
 <span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-c-library_version" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">library_version</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the magic version</p>
+          
+          
+
+          
+          <div class="method-source-code" id="library_version-source">
+            <pre>static VALUE
+rb_magic_version(VALUE klass) {
+  char version[8] = &quot;0&quot;;
+#ifdef HAVE_MAGIC_VERSION
+  RB_MAGIC_SET_VERSION(magic_version() / 100, magic_version() % 100)
+#endif
+  return rb_str_new2(version);
+}</pre>
           </div>
           
         </div>
@@ -494,7 +550,7 @@ rb_magic_flags(VALUE klass, VALUE flags) {
 
           
           <div class="method-source-code" id="magic_version-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 101</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 109</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">magic_version</span>(<span class="ruby-identifier">default</span> = <span class="ruby-constant">MAGIC_VERSION</span>)
   <span class="ruby-identifier">default</span> <span class="ruby-operator">!=</span> <span class="ruby-string">&#39;0&#39;</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">default</span> <span class="ruby-operator">:</span>
     <span class="ruby-identifier">user_magic_version</span> <span class="ruby-operator">||</span>
@@ -530,7 +586,7 @@ rb_magic_flags(VALUE klass, VALUE flags) {
 
           
           <div class="method-source-code" id="mime-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 97</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 105</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">mime</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
   <span class="ruby-identifier">open</span>(<span class="ruby-value">:mime</span>, <span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>, <span class="ruby-operator">&amp;</span><span class="ruby-identifier">block</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -628,7 +684,7 @@ value of the block is returned.</p>
 
           
           <div class="method-source-code" id="open-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 82</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 90</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">open</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
   <span class="ruby-identifier">fm</span> = <span class="ruby-identifier">new</span>(<span class="ruby-operator">*</span><span class="ruby-identifier">flags</span>)
 
@@ -713,7 +769,7 @@ rb_magic_getpath(VALUE klass) {
 
           
           <div class="method-source-code" id="auto_magic_version-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 114</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 122</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">auto_magic_version</span>
   <span class="ruby-identifier">require</span> <span class="ruby-string">&#39;nuggets/file/which&#39;</span>
 
@@ -754,7 +810,7 @@ rb_magic_getpath(VALUE klass) {
 
           
           <div class="method-source-code" id="user_magic_version-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 110</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 118</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">user_magic_version</span>(<span class="ruby-identifier">key</span> = <span class="ruby-string">&#39;MAGIC_VERSION&#39;</span>)
   [<span class="ruby-constant">ENV</span>[<span class="ruby-identifier">key</span>], <span class="ruby-string">&#39;user-specified&#39;</span>] <span class="ruby-keyword">if</span> <span class="ruby-constant">ENV</span>[<span class="ruby-identifier">key</span>]
 <span class="ruby-keyword">end</span></pre>
@@ -846,6 +902,39 @@ rb_magic_close(VALUE self) {
 rb_magic_closed_p(VALUE self) {
   return rb_attr_get(self, rb_intern(&quot;closed&quot;));
 }</pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-fd" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">fd</span><span
+            class="method-args">(fd)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="fd-source">
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">fd</span>(<span class="ruby-identifier">fd</span>)
+  <span class="ruby-identifier">descriptor</span>(<span class="ruby-identifier">fd</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:fileno</span>) <span class="ruby-operator">?</span> <span class="ruby-identifier">fd</span>.<span class="ruby-identifier">fileno</span> <span class="ruby-operator">:</span> <span class="ruby-identifier">fd</span>)
+<span class="ruby-keyword">end</span></pre>
           </div>
           
         </div>
@@ -962,7 +1051,7 @@ rb_magic_setflags(VALUE self, VALUE flags) {
 
           
           <div class="method-source-code" id="inspect-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 138</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 153</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">inspect</span>
   <span class="ruby-keyword">super</span>.<span class="ruby-identifier">insert</span>(<span class="ruby-value">-2</span>, <span class="ruby-identifier">closed?</span> <span class="ruby-operator">?</span> <span class="ruby-string">&#39; (closed)&#39;</span> <span class="ruby-operator">:</span> <span class="ruby-string">&#39;&#39;</span>)
 <span class="ruby-keyword">end</span></pre>
@@ -980,7 +1069,7 @@ rb_magic_setflags(VALUE self, VALUE flags) {
         
         <div class="method-heading">
           <span class="method-name">io</span><span
-            class="method-args">(io, length = 8)</span>
+            class="method-args">(io, length = 8, rewind = false)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -995,9 +1084,12 @@ rb_magic_setflags(VALUE self, VALUE flags) {
 
           
           <div class="method-source-code" id="io-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 134</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">io</span>(<span class="ruby-identifier">io</span>, <span class="ruby-identifier">length</span> = <span class="ruby-value">8</span>)
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 142</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">io</span>(<span class="ruby-identifier">io</span>, <span class="ruby-identifier">length</span> = <span class="ruby-value">8</span>, <span class="ruby-identifier">rewind</span> = <span class="ruby-keyword">false</span>)
+  <span class="ruby-identifier">pos</span> = <span class="ruby-identifier">io</span>.<span class="ruby-identifier">pos</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">rewind</span>
   <span class="ruby-identifier">buffer</span>(<span class="ruby-identifier">io</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">length</span>))
+<span class="ruby-keyword">ensure</span>
+  <span class="ruby-identifier">io</span>.<span class="ruby-identifier">pos</span> = <span class="ruby-identifier">pos</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">pos</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -1028,7 +1120,7 @@ rb_magic_setflags(VALUE self, VALUE flags) {
 
           
           <div class="method-source-code" id="simplified-3F-source">
-            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 130</span>
+            <pre><span class="ruby-comment"># File lib/filemagic.rb, line 138</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">simplified?</span>
   <span class="ruby-ivar">@simplified</span>
 <span class="ruby-keyword">end</span></pre>
