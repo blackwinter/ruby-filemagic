@@ -267,6 +267,15 @@ Init_ruby_filemagic() {
 #ifdef MAGIC_APPLE
   rb_define_const(cFileMagic, "MAGIC_APPLE",             INT2FIX(MAGIC_APPLE));
 #endif
+#ifdef MAGIC_EXTENSION
+  rb_define_const(cFileMagic, "MAGIC_EXTENSION",         INT2FIX(MAGIC_EXTENSION));
+#endif
+#ifdef MAGIC_COMPRESS_TRANSP
+  rb_define_const(cFileMagic, "MAGIC_COMPRESS_TRANSP",   INT2FIX(MAGIC_COMPRESS_TRANSP));
+#endif
+#ifdef MAGIC_NODESC
+  rb_define_const(cFileMagic, "MAGIC_NODESC",            INT2FIX(MAGIC_NODESC));
+#endif
 #ifdef MAGIC_NO_CHECK_COMPRESS
   rb_define_const(cFileMagic, "MAGIC_NO_CHECK_COMPRESS", INT2FIX(MAGIC_NO_CHECK_COMPRESS));
 #endif

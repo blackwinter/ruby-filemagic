@@ -5,6 +5,7 @@
 == 0.6.4 [unreleased]
 
 * Changed FileMagic#io to optionally rewind input afterwards.
+* Added new constants from file 5.23.
 
 == 0.6.3 [2015-02-06]
 

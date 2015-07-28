@@ -20,15 +20,18 @@ class FileMagic
     :symlink,            # Follow symlinks
     :compress,           # Check inside compressed files
     :devices,            # Look at the contents of devices
-    :mime_type,          # Return only the MIME type
+    :mime_type,          # Return the MIME type
     :continue,           # Return all matches
     :check,              # Print warnings to stderr
     :preserve_atime,     # Restore access time on exit
-    :raw,                # Don't translate unprint chars
+    :raw,                # Don't convert unprintable chars
     :error,              # Handle ENOENT etc as real errors
-    :mime_encoding,      # Return only the MIME encoding
+    :mime_encoding,      # Return the MIME encoding
     :mime,               # MAGIC_MIME_TYPE | MAGIC_MIME_ENCODING
-    :apple,              # Return the Apple creator and type
+    :apple,              # Return the Apple creator/type
+    :extension,          # Return a /-separated list of extensions
+    :compress_transp,    # Check inside compressed files but not report compression
+    :nodesc,             # MAGIC_EXTENSION | MAGIC_MIME | MAGIC_APPLE
     :no_check_compress,  # Don't check for compressed files
     :no_check_tar,       # Don't check for tar files
     :no_check_soft,      # Don't check magic entries
@@ -36,7 +39,7 @@ class FileMagic
     :no_check_elf,       # Don't check for elf details
     :no_check_text,      # Don't check for text files
     :no_check_cdf,       # Don't check for cdf files
-    :no_check_tokens,    # Don't check ascii/tokens
+    :no_check_tokens,    # Don't check tokens
     :no_check_encoding,  # Don't check text encodings
     :no_check_builtin,   # No built-in tests; only consult the magic file
 
