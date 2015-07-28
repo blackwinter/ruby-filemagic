@@ -263,13 +263,9 @@ magic file from #{FileMagic.path}
   end
 
   def fd_for(file)
-    File.open(path_to(file)) { |f|
-      begin
-        yield f.fileno
-      rescue Errno::EBADF => err
-        warn err.to_s
-      end
-    }
+    File.open(path_to(file)) { |f| yield f.fileno }
+  rescue Errno::EBADF => err
+    warn err.to_s
   end
 
   def silence_stderr
