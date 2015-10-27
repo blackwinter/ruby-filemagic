@@ -26,7 +26,10 @@ magic file from #{FileMagic.path}
 
     if File.symlink?(path_to('pylink'))
       res = fm.file(path_to('pylink'))
-      assert_equal("symbolic link to `pyfile'", res.strip)
+      assert_equal(match_version(
+        0    => "symbolic link to `pyfile'",
+        5.22 => 'symbolic link to pyfile'
+      ), res.strip)
     end
 
     fm.close
