@@ -2,6 +2,10 @@
 
 = Revision history for ruby-filemagic
 
+== 0.7.1 [2015-10-27]
+
+* List default lib and header directories (pull request #18 by Adam Wróbel).
+
 == 0.7.0 [2015-07-28]
 
 * Changed FileMagic#io to optionally rewind input afterwards.
