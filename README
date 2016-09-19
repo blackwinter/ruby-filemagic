@@ -38,24 +38,33 @@ FileMagic extension module. See also libmagic(3), file(1) and magic(4).
   require 'filemagic'
 
   p FileMagic::VERSION
+  # => "0.7.1"
   p FileMagic::MAGIC_VERSION
+  # => "5.22"
 
   p FileMagic.new.flags
+  # => []
 
   FileMagic.open(:mime) { |fm|
     p fm.flags
+    # => [:mime_type, :mime_encoding]
     p fm.file(__FILE__)
+    # => "text/plain; charset=us-ascii"
     p fm.file(__FILE__, true)
+    # => "text/plain"
 
     fm.flags = [:raw, :continue]
     p fm.flags
+    # => [:continue, :raw]
   }
 
   fm = FileMagic.new
   p fm.flags
+  # => []
 
   mime = FileMagic.mime
   p mime.flags
+  # => [:mime_type, :mime_encoding]
 
 === Environment
 
