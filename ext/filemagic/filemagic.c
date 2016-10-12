@@ -112,6 +112,7 @@ rb_magic_init(int argc, VALUE *argv, VALUE self) {
 
   rb_iv_set(self, "iflags", flags);
   rb_iv_set(self, "closed", Qfalse);
+  rb_iv_set(self, "@simplified", Qfalse);
 
   keys = rb_funcall(options, rb_intern("keys"), 0);
 
