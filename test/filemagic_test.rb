@@ -62,6 +62,12 @@ magic file from #{FileMagic.path}
     assert_equal('POSIX shell script, ASCII text executable', res)
   end
 
+  def test_nil_buffer
+    fm = FileMagic.new(FileMagic::MAGIC_NONE)
+    assert_raise(TypeError) { fm.buffer(nil) }
+    fm.close
+  end
+
   def test_descriptor
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
 
