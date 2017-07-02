@@ -18,9 +18,9 @@
   }\
 }
 
-#define RB_MAGIC_TYPE_FILE       magic_file(ms, StringValuePtr(arg))
-#define RB_MAGIC_TYPE_BUFFER     magic_buffer(ms, StringValuePtr(arg), RSTRING_LEN(arg))
-#define RB_MAGIC_TYPE_DESCRIPTOR magic_descriptor(ms, NUM2INT(arg))
+#define RB_MAGIC_TYPE_FILE       type = magic_file(ms, StringValuePtr(arg));
+#define RB_MAGIC_TYPE_BUFFER     { char *arg_str = StringValuePtr(arg); type = magic_buffer(ms, arg_str, RSTRING_LEN(arg)); }
+#define RB_MAGIC_TYPE_DESCRIPTOR type = magic_descriptor(ms, NUM2INT(arg));
 
 #define RB_MAGIC_TYPE(what, WHAT) \
 static VALUE \
@@ -32,7 +32,8 @@ rb_magic_##what(int argc, VALUE *argv, VALUE self) {\
   rb_scan_args(argc, argv, "11", &arg, &simple);\
   GetMagicSet(self, ms);\
 \
-  if ((type = RB_MAGIC_TYPE_##WHAT) == NULL) {\
+  RB_MAGIC_TYPE_##WHAT\
+  if (type == NULL) {\
     rb_raise(rb_FileMagicError, "failed lookup: %s", magic_error(ms));\
   }\
 \
