@@ -2,7 +2,7 @@
 
 == VERSION
 
-This documentation refers to filemagic version 0.7.1
+This documentation refers to filemagic version 0.7.2
 
 
 == DESCRIPTION
@@ -38,9 +38,9 @@ FileMagic extension module. See also libmagic(3), file(1) and magic(4).
   require 'filemagic'
 
   p FileMagic::VERSION
-  # => "0.7.1"
+  # => "0.7.2"
   p FileMagic::MAGIC_VERSION
-  # => "5.22"
+  # => "5.28"
 
   p FileMagic.new.flags
   # => []

@@ -2,6 +2,11 @@
 
 = Revision history for ruby-filemagic
 
+== 0.7.2 [2017-07-02]
+
+* Fix segfault on <tt>buffer(nil)</tt> when compiled with GCC (pull request
+  #24 by Yuya Tanaka).
+
 == 0.7.1 [2015-10-27]
 
 * List default lib and header directories (pull request #18 by Adam Wróbel).
