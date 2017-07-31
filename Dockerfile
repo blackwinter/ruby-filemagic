@@ -3,9 +3,7 @@ FROM ruby:2.4
 RUN apt-get update && apt-get install -y mingw-w64
 RUN gem install rake-compiler
 RUN rake-compiler cross-ruby VERSION=2.4.1 && \
-    rake-compiler cross-ruby VERSION=2.3.4 && \
-    rake-compiler cross-ruby VERSION=2.2.7 && \
-    rake-compiler cross-ruby VERSION=2.1.10
+    rake-compiler cross-ruby VERSION=2.3.4
 
 RUN wget https://vorboss.dl.sourceforge.net/project/mingw/Other/UserContributed/regex/mingw-regex-2.5.1/mingw-libgnurx-2.5.1-src.tar.gz && \
     tar xvf mingw-libgnurx-2.5.1-src.tar.gz && \
