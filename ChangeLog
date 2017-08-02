@@ -2,6 +2,10 @@
 
 = Revision history for ruby-filemagic
 
+== 0.7.3 [unreleased]
+
+* Dockerfile to build native extension (pull request #26 by Pavel Lobashov).
+
 == 0.7.2 [2017-07-02]
 
 * Fix segfault on <tt>buffer(nil)</tt> when compiled with GCC (pull request

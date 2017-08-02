@@ -85,10 +85,9 @@ OS X::          <tt>brew install libmagic</tt>
 
 === Build native extension
 
-  docker build -t ruby-filemagic-extension-build .
-  docker run --rm -itd --name ruby-filemagic-extension-build ruby-filemagic-extension-build
-  docker cp ruby-filemagic-extension-build:/ruby-filemagic/pkg .
-  docker stop ruby-filemagic-extension-build
+  rake docker:gem:native
+
+Requires Docker[https://docker.com] to be installed.
 
 == LINKS
 
@@ -109,6 +108,9 @@ Travis CI::     https://travis-ci.org/blackwinter/ruby-filemagic
 
 * Martin Carpenter <mailto:mcarpenter@free.fr> for Ruby 1.9.2 compatibility
   and other improvements.
+
+* Pavel Lobashov (@ShockwaveNN) for Dockerfile to build cross-compiled Windows
+  extension (pull request #26).
 
 
 == COPYING

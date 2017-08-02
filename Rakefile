@@ -32,3 +32,20 @@ begin
 rescue LoadError => err
   warn "Please install the `hen' gem. (#{err})"
 end
+
+namespace :docker do
+
+  name = "ruby-filemagic-gem-native:#{FileMagic::VERSION}"
+
+  task :build do
+    sh *%W[docker build -t #{name} .]
+  end
+
+  task :run do
+    sh *%W[docker run -it --rm -v #{Dir.pwd}/pkg:/ruby-filemagic/pkg #{name}]
+  end
+
+  desc "Build native gems using docker image #{name}"
+  task 'gem:native' => %w[build run]
+
+end
