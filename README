@@ -83,6 +83,12 @@ Fedora/SuSE::   +file-devel+
 Gentoo::        +sys-libs/libmagic+
 OS X::          <tt>brew install libmagic</tt>
 
+=== Build native extension
+
+  docker build -t ruby-filemagic-extension-build .
+  docker run --rm -itd --name ruby-filemagic-extension-build ruby-filemagic-extension-build
+  docker cp ruby-filemagic-extension-build:/ruby-filemagic/pkg .
+  docker stop ruby-filemagic-extension-build
 
 == LINKS
 
