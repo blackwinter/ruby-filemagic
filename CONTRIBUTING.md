@@ -1,1 +1,1 @@
-Please note that this project is in **maintenance mode**. Bug reports and pull requests are welcome, but only [file](http://www.darwinsys.com/file/) **5.11 or higher** is actually supported.
+Please note that this project is **no longer maintained**. I'm happy to hand over ownership to anyone who shows serious interest.
