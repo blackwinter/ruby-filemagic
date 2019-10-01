@@ -9,7 +9,7 @@ rvm:
   - '2.3.1'
   - ruby-head
   - rbx
-
+hello world
 matrix:
   allow_failures:
     - rvm: ruby-head
