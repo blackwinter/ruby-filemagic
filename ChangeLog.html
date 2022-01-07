@@ -4,17 +4,22 @@
 <head>
 <meta charset="UTF-8">
 
-<title>ChangeLog - ruby-filemagic Application documentation (v0.7.2)</title>
+<title>ChangeLog - ruby-filemagic Application documentation (v0.7.3)</title>
 
 <script type="text/javascript">
   var rdoc_rel_prefix = "./";
+  var index_rel_prefix = "./";
 </script>
 
-<script src="./js/jquery.js"></script>
-<script src="./js/darkfish.js"></script>
+<script src="./js/navigation.js" defer></script>
+<script src="./js/search.js" defer></script>
+<script src="./js/search_index.js" defer></script>
+<script src="./js/searcher.js" defer></script>
+<script src="./js/darkfish.js" defer></script>
 
 <link href="./css/fonts.css" rel="stylesheet">
 <link href="./css/rdoc.css" rel="stylesheet">
+
 
 
 
@@ -56,6 +61,7 @@
 
   <ul class="link-list" role="directory">
     <li><a href="#label-Revision+history+for+ruby-filemagic">Revision history for ruby-filemagic</a>
+    <li><a href="#label-0.7.3+-5B2022-01-07-5D">0.7.3 [2022-01-07]</a>
     <li><a href="#label-0.7.2+-5B2017-07-02-5D">0.7.2 [2017-07-02]</a>
     <li><a href="#label-0.7.1+-5B2015-10-27-5D">0.7.1 [2015-10-27]</a>
     <li><a href="#label-0.7.0+-5B2015-07-28-5D">0.7.0 [2015-07-28]</a>
@@ -99,10 +105,16 @@
 
 <h1 id="label-Revision+history+for+ruby-filemagic">Revision history for ruby-filemagic<span><a href="#label-Revision+history+for+ruby-filemagic">&para;</a> <a href="#top">&uarr;</a></span></h1>
 
+<h2 id="label-0.7.3+-5B2022-01-07-5D">0.7.3 [2022-01-07]<span><a href="#label-0.7.3+-5B2022-01-07-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
+<ul><li>
+<p>Dockerfile to build native extension (pull request #26 by Pavel Lobashov).</p>
+</li><li>
+<p>Include paths for ARM-based Apple Macs (Apple Silicon) (pull request #35 by    @545ch4).</p>
+</li></ul>
+
 <h2 id="label-0.7.2+-5B2017-07-02-5D">0.7.2 [2017-07-02]<span><a href="#label-0.7.2+-5B2017-07-02-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
-<p>Fix segfault on <code>buffer(nil)</code> when compiled with GCC (pull
-request    #24 by Yuya Tanaka).</p>
+<p>Fix segfault on <code>buffer(nil)</code> when compiled with GCC (pull request    #24 by Yuya Tanaka).</p>
 </li></ul>
 
 <h2 id="label-0.7.1+-5B2015-10-27-5D">0.7.1 [2015-10-27]<span><a href="#label-0.7.1+-5B2015-10-27-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
@@ -112,16 +124,13 @@ request    #24 by Yuya Tanaka).</p>
 
 <h2 id="label-0.7.0+-5B2015-07-28-5D">0.7.0 [2015-07-28]<span><a href="#label-0.7.0+-5B2015-07-28-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
-<p>Changed <a href="FileMagic.html#method-i-io">FileMagic#io</a> to optionally
-rewind input afterwards.</p>
+<p>Changed <a href="FileMagic.html#method-i-io"><code>FileMagic#io</code></a> to optionally rewind input afterwards.</p>
 </li><li>
-<p>New method <a
-href="FileMagic.html#method-c-library_version">FileMagic.library_version</a>
-(<code>magic_version</code>).</p>
+<p>New method <a href="FileMagic.html#method-c-library_version"><code>FileMagic.library_version</code></a> (<code>magic_version</code>).</p>
 </li><li>
 <p>New method FileMagic#descriptor (<code>magic_descriptor</code>).</p>
 </li><li>
-<p>New method <a href="FileMagic.html#method-i-fd">FileMagic#fd</a>.</p>
+<p>New method <a href="FileMagic.html#method-i-fd"><code>FileMagic#fd</code></a>.</p>
 </li><li>
 <p>Added new constants from file 5.23.</p>
 </li></ul>
@@ -135,15 +144,12 @@ href="FileMagic.html#method-c-library_version">FileMagic.library_version</a>
 <ul><li>
 <p>Improved Windows support (issue #10 by Matt Hoyle).</p>
 </li><li>
-<p>Fixed <a href="FileMagic.html#method-c-path">FileMagic.path</a> to account
-for missing magic file.</p>
+<p>Fixed <a href="FileMagic.html#method-c-path"><code>FileMagic.path</code></a> to account for missing magic file.</p>
 </li></ul>
 
 <h2 id="label-0.6.1+-5B2014-08-19-5D">0.6.1 [2014-08-19]<span><a href="#label-0.6.1+-5B2014-08-19-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
-<p>Account for options passed to <a
-href="FileMagic.html#method-c-fm">FileMagic.fm</a> (issue #7 by Adam
-Wróbel).</p>
+<p>Account for options passed to <a href="FileMagic.html#method-c-fm"><code>FileMagic.fm</code></a> (issue #7 by Adam Wróbel).</p>
 </li></ul>
 
 <h2 id="label-0.6.0+-5B2014-05-16-5D">0.6.0 [2014-05-16]<span><a href="#label-0.6.0+-5B2014-05-16-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
@@ -154,13 +160,11 @@ Wróbel).</p>
 </li><li>
 <p>New method FileMagic#load (<code>magic_load</code>).</p>
 </li><li>
-<p>New method <a href="FileMagic.html#method-c-path">FileMagic.path</a>
-(<code>magic_getpath</code>).</p>
+<p>New method <a href="FileMagic.html#method-c-path"><code>FileMagic.path</code></a> (<code>magic_getpath</code>).</p>
 </li><li>
-<p>New method <a
-href="FileMagic.html#method-c-magic_version">FileMagic.magic_version</a>.</p>
+<p>New method <a href="FileMagic.html#method-c-magic_version"><code>FileMagic.magic_version</code></a>.</p>
 </li><li>
-<p>New method <a href="FileMagic.html#method-c-flags">FileMagic.flags</a>.</p>
+<p>New method <a href="FileMagic.html#method-c-flags"><code>FileMagic.flags</code></a>.</p>
 </li><li>
 <p>New flag <code>no_check_builtin</code>.</p>
 </li><li>
@@ -178,15 +182,14 @@ href="FileMagic.html#method-c-magic_version">FileMagic.magic_version</a>.</p>
 
 <h2 id="label-0.5.1+-5B2014-04-15-5D">0.5.1 [2014-04-15]<span><a href="#label-0.5.1+-5B2014-04-15-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
-<p>New method <a href="FileMagic.html#method-i-io">FileMagic#io</a>.</p>
+<p>New method <a href="FileMagic.html#method-i-io"><code>FileMagic#io</code></a>.</p>
 </li><li>
 <p>Housekeeping.</p>
 </li></ul>
 
 <h2 id="label-0.5.0+-5B2013-12-19-5D">0.5.0 [2013-12-19]<span><a href="#label-0.5.0+-5B2013-12-19-5D">&para;</a> <a href="#top">&uarr;</a></span></h2>
 <ul><li>
-<p>Removed usage of <code>RARRAY_PTR</code> (cf. Ruby bug    <a
-href="https://bugs.ruby-lang.org/issues/8399">#8399</a>).</p>
+<p>Removed usage of <code>RARRAY_PTR</code> (cf. Ruby bug    <a href="https://bugs.ruby-lang.org/issues/8399">#8399</a>).</p>
 </li><li>
 <p>Housekeeping.</p>
 </li></ul>
@@ -251,8 +254,7 @@ href="https://bugs.ruby-lang.org/issues/8399">#8399</a>).</p>
 </li><li>
 <p>Added Ruby wrapper for more rubyish interface</p>
 </li><li>
-<p>Added extensions for <a href="File.html">File</a> and <a
-href="String.html">String</a> core classes</p>
+<p>Added extensions for <a href="File.html"><code>File</code></a> and <a href="String.html"><code>String</code></a> core classes</p>
 </li><li>
 <p>Added/updated project files</p>
 </li><li>
@@ -270,13 +272,14 @@ href="String.html">String</a> core classes</p>
 <ul><li>
 <p>Initial release.</p>
 </li></ul>
+
 </main>
 
 
 
 <footer id="validator-badges" role="contentinfo">
-  <p><a href="http://validator.w3.org/check/referer">Validate</a>
-  <p>Generated by <a href="http://docs.seattlerb.org/rdoc/">RDoc</a> 4.2.2.
+  <p><a href="https://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="https://ruby.github.io/rdoc/">RDoc</a> 6.2.1.1.
   <p>Based on <a href="http://deveiate.org/projects/Darkfish-RDoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
 </footer>
 

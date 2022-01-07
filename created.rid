@@ -1,8 +1,8 @@
-Sun, 02 Jul 2017 17:16:38 +0200
-README	Sun, 02 Jul 2017 17:06:50 +0200
-ChangeLog	Sun, 02 Jul 2017 17:05:30 +0200
+Fri, 07 Jan 2022 20:26:44 +0100
+README	Fri, 07 Jan 2022 20:25:29 +0100
+ChangeLog	Fri, 07 Jan 2022 20:23:19 +0100
 lib/filemagic.rb	Tue, 28 Jul 2015 18:15:43 +0200
 lib/filemagic/ext.rb	Tue, 19 Aug 2014 19:32:59 +0200
 lib/ruby-filemagic.rb	Tue, 19 Aug 2014 18:49:02 +0200
-lib/filemagic/version.rb	Sun, 02 Jul 2017 17:05:12 +0200
+lib/filemagic/version.rb	Fri, 07 Jan 2022 20:24:41 +0100
 ext/filemagic/filemagic.c	Tue, 01 Nov 2016 21:51:46 +0100
