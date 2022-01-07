@@ -3,12 +3,14 @@ require 'mkmf'
 HEADER_DIRS = [
   '/opt/local/include', # MacPorts
   '/usr/local/include', # compiled from source and Homebrew
+  '/opt/homebrew/include', # compiled from source and Homebrew (ARM based Macs)
   '/usr/include',       # system
 ]
 
 LIB_DIRS = [
   '/opt/local/lib', # MacPorts
   '/usr/local/lib', # compiled from source and Homebrew
+  '/opt/homebrew/lib', # compiled from source and Homebrew (ARM based Macs)
   '/usr/lib',       # system
 ]
 
