@@ -130,7 +130,10 @@ magic file from #{FileMagic.path}
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
     res = silence_stderr { fm.check(path_to('perl.mgc')) }
     fm.close
-    assert(res)
+    assert(match_version(
+      0    => res,
+      5.39 => !res
+    ))
   end
 
   def test_compile
@@ -238,7 +241,8 @@ magic file from #{FileMagic.path}
     assert_equal(match_version(
       0    => 'application/vnd.ms-office',
       5.11 => 'application/msword',
-      5.14 => 'application/vnd.ms-office'
+      5.14 => 'application/vnd.ms-office',
+      5.39 => 'application/vnd.ms-excel'
     ), fm.file(path_to('excel-example.xls')))
   end
 

@@ -2,9 +2,11 @@
 
 = Revision history for ruby-filemagic
 
-== 0.7.3 [unreleased]
+== 0.7.3 [2022-01-07]
 
 * Dockerfile to build native extension (pull request #26 by Pavel Lobashov).
+* Include paths for ARM-based Apple Macs (Apple Silicon) (pull request #35 by
+  @545ch4).
 
 == 0.7.2 [2017-07-02]
 
