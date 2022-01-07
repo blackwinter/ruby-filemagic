@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.email = "jens.wille@gmail.com".freeze
   s.extensions = ["ext/filemagic/extconf.rb".freeze]
   s.extra_rdoc_files = ["README".freeze, "ChangeLog".freeze, "ext/filemagic/filemagic.c".freeze]
-  s.files = ["CONTRIBUTING.md".freeze, "ChangeLog".freeze, "README".freeze, "Rakefile".freeze, "TODO".freeze, "ext/filemagic/extconf.rb".freeze, "ext/filemagic/filemagic.c".freeze, "ext/filemagic/filemagic.h".freeze, "lib/filemagic.rb".freeze, "lib/filemagic/ext.rb".freeze, "lib/filemagic/magic.mgc".freeze, "lib/filemagic/version.rb".freeze, "lib/ruby-filemagic.rb".freeze, "test/excel-example.xls".freeze, "test/filemagic_test.rb".freeze, "test/leaktest.rb".freeze, "test/mahoro.c".freeze, "test/perl".freeze, "test/perl.mgc".freeze, "test/pyfile".freeze, "test/pyfile-compressed.gz".freeze, "test/pylink".freeze]
+  s.files = ["CONTRIBUTING.md".freeze, "ChangeLog".freeze, "README".freeze, "Rakefile".freeze, "TODO".freeze, "ext/filemagic/extconf.rb".freeze, "ext/filemagic/filemagic.c".freeze, "ext/filemagic/filemagic.h".freeze, "lib/filemagic.rb".freeze, "lib/filemagic/ext.rb".freeze, "lib/filemagic/version.rb".freeze, "lib/ruby-filemagic.rb".freeze, "test/excel-example.xls".freeze, "test/filemagic_test.rb".freeze, "test/leaktest.rb".freeze, "test/mahoro.c".freeze, "test/perl".freeze, "test/perl.mgc".freeze, "test/pyfile".freeze, "test/pyfile-compressed.gz".freeze, "test/pylink".freeze]
   s.homepage = "http://github.com/blackwinter/ruby-filemagic".freeze
   s.licenses = ["Ruby".freeze]
   s.post_install_message = "\nruby-filemagic-0.7.2 [2017-07-02]:\n\n* Fix segfault on <tt>buffer(nil)</tt> when compiled with GCC (pull request\n  #24 by Yuya Tanaka).\n\n".freeze
