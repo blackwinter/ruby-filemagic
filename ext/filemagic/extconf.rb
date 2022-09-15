@@ -1,24 +1,10 @@
 require 'mkmf'
 
-HEADER_DIRS = [
-  '/opt/local/include', # MacPorts
-  '/usr/local/include', # compiled from source and Homebrew
-  '/opt/homebrew/include', # compiled from source and Homebrew (ARM based Macs)
-  '/usr/include',       # system
-]
-
-LIB_DIRS = [
-  '/opt/local/lib', # MacPorts
-  '/usr/local/lib', # compiled from source and Homebrew
-  '/opt/homebrew/lib', # compiled from source and Homebrew (ARM based Macs)
-  '/usr/lib',       # system
-]
-
 $CFLAGS << ' -Wall' if ENV['WALL']
 $LDFLAGS << ' -static-libgcc' if RUBY_PLATFORM =~ /cygwin|mingw|mswin/
 
-dir_config('magic', HEADER_DIRS, LIB_DIRS)
-dir_config('gnurx', HEADER_DIRS, LIB_DIRS)
+dir_config('magic')
+dir_config('gnurx')
 
 have_library('gnurx')
 
