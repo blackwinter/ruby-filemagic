@@ -3,7 +3,7 @@
 /* Returns the magic version */
 static VALUE
 rb_magic_version(VALUE klass) {
-  char version[8] = "0";
+  char version[16] = "0";
 #ifdef HAVE_MAGIC_VERSION
   RB_MAGIC_SET_VERSION(magic_version() / 100, magic_version() % 100)
 #endif
@@ -208,7 +208,7 @@ RB_MAGIC_APPRENTICE(compile)
 
 void
 Init_ruby_filemagic() {
-  char version[8] = "0";
+  char version[16] = "0";
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
 
 #if defined(FILE_VERSION_MAJOR)
