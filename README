@@ -80,7 +80,7 @@ The file(1) library and headers are required:
 
 Debian/Ubuntu:: +libmagic-dev+
 Fedora/SuSE::   +file-devel+
-Alpine::        +libmagic file file-dev+
+Alpine::        <tt>libmagic file file-dev</tt>
 Gentoo::        +sys-libs/libmagic+
 OS X::          <tt>brew install libmagic</tt>
 
