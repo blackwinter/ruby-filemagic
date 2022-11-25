@@ -64,7 +64,7 @@ magic file from #{FileMagic.path}
 
   def test_nil_buffer
     fm = FileMagic.new(FileMagic::MAGIC_NONE)
-    assert_raise(TypeError) { fm.buffer(nil) }
+    assert_raises(TypeError) { fm.buffer(nil) }
     fm.close
   end
 
@@ -159,7 +159,7 @@ magic file from #{FileMagic.path}
   end
 
   def test_flags_to_int
-    assert_raise(TypeError) { FileMagic.flags(0) }
+    assert_raises(TypeError) { FileMagic.flags(0) }
     assert_equal(0, FileMagic.flags([FileMagic::MAGIC_NONE]))
     assert_equal(0, FileMagic.flags([:none]))
     assert_equal(0, FileMagic.flags([]))
