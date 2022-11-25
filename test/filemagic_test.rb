@@ -24,25 +24,36 @@ magic file from #{FileMagic.path}
     res = fm.file(path_to('pyfile'))
     assert_equal(python_script, res)
 
-    if File.symlink?(path_to('pylink'))
+    # The following block ensures that symlinks are only tested on systems
+    # that support them.
+    begin
+      assert(File.writable?('test'), "can't write to test directory")
+      File.symlink('pyfile', 'test/pylink')
+
+      if File.symlink?(path_to('pylink'))
+        res = fm.file(path_to('pylink'))
+        assert_equal(match_version(
+          0    => "symbolic link to `pyfile'",
+          5.22 => 'symbolic link to pyfile'
+        ), res.strip)
+      end
+
+      fm.close
+      fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
+
       res = fm.file(path_to('pylink'))
-      assert_equal(match_version(
-        0    => "symbolic link to `pyfile'",
-        5.22 => 'symbolic link to pyfile'
-      ), res.strip)
+      assert_equal(python_script, res)
+
+      fm.close
+      fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
+
+      res = fm.file(path_to('pylink'))
+      assert_equal('text/plain; charset=us-ascii', res)
+    rescue NotImplementedError
+      # ignore
+    ensure
+      File.unlink('test/pylink') if File.exist?('test/pylink')
     end
-
-    fm.close
-    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
-
-    res = fm.file(path_to('pylink'))
-    assert_equal(python_script, res)
-
-    fm.close
-    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
-
-    res = fm.file(path_to('pylink'))
-    assert_equal('text/plain; charset=us-ascii', res)
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
@@ -81,28 +92,39 @@ magic file from #{FileMagic.path}
       assert_equal(python_script, res)
     }
 
-    if File.symlink?(path_to('pylink'))
+    # The following block ensures that symlinks are only tested on systems
+    # that support them.
+    begin
+      assert(File.writable?('test'), "can't write to test directory")
+      File.symlink('pyfile', 'test/pylink')
+
+      if File.symlink?(path_to('pylink'))
+        fd_for('pylink') { |fd|
+          res = fm.descriptor(fd)
+          assert_equal(python_script, res.strip)
+        }
+      end
+
+      fm.close
+      fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
+
       fd_for('pylink') { |fd|
         res = fm.descriptor(fd)
-        assert_equal(python_script, res.strip)
+        assert_equal(python_script, res)
       }
+
+      fm.close
+      fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
+
+      fd_for('pylink') { |fd|
+        res = fm.descriptor(fd)
+        assert_equal('text/plain; charset=us-ascii', res)
+      }
+    rescue NotImplementedError
+      # ignore
+    ensure
+      File.unlink('test/pylink') if File.exist?('test/pylink')
     end
-
-    fm.close
-    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK)
-
-    fd_for('pylink') { |fd|
-      res = fm.descriptor(fd)
-      assert_equal(python_script, res)
-    }
-
-    fm.close
-    fm = FileMagic.new(FileMagic::MAGIC_SYMLINK | FileMagic::MAGIC_MIME)
-
-    fd_for('pylink') { |fd|
-      res = fm.descriptor(fd)
-      assert_equal('text/plain; charset=us-ascii', res)
-    }
 
     fm.close
     fm = FileMagic.new(FileMagic::MAGIC_COMPRESS)
