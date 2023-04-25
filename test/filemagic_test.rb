@@ -1,3 +1,5 @@
+gem 'test-unit' unless ENV.fetch("USE_TEST_UNIT", '').downcase == 'no'
+
 require 'test/unit'
 require 'filemagic'
 
