@@ -210,6 +210,7 @@ void
 Init_ruby_filemagic() {
   char version[8] = "0";
   cFileMagic = rb_define_class("FileMagic", rb_cObject);
+  rb_undef_alloc_func(cFileMagic);
 
 #if defined(FILE_VERSION_MAJOR)
   RB_MAGIC_SET_VERSION(FILE_VERSION_MAJOR, patchlevel)

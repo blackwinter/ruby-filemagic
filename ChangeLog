@@ -2,6 +2,10 @@
 
 = Revision history for ruby-filemagic
 
+== Unreleased []
+
+* Remove Warning 'warning: undefining the allocator of T_DATA class FileMagic'
+
 == 0.7.3 [2022-01-07]
 
 * Dockerfile to build native extension (pull request #26 by Pavel Lobashov).
